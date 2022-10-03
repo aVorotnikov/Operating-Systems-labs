@@ -4,10 +4,13 @@
 
 #include "copier/copier.h"
 
-int main(void)
+int main(int argc, char* argv[])
 {
+    if (2 != argc)
+        return EXIT_FAILURE;
+
     std::vector<Copier::CopyInfo> copyInfoList;
-    if (!Copier::ReadConfig("data/test.conf", copyInfoList))
+    if (!Copier::ReadConfig(argv[1], copyInfoList))
         return EXIT_FAILURE;
 
     auto& copier = Copier::GetRef();
