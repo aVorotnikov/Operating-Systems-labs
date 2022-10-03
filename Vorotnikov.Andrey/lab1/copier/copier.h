@@ -23,6 +23,12 @@ public:
         std::string subfolder;  ///< Имя поддиректории директории dst, в которую будут копироваться файлы с расширением extension
     };
 
+    /// @brief Прочитать конфигурационный файл
+    /// @param[in] path Путь к конфигурационному файлу
+    /// @param[out] copyInfoList Список структур об информации для копирования файлов
+    /// @return true если прочитать удалось, false - иначе.
+    static bool ReadConfig(const std::string& path, std::vector<CopyInfo>& copyInfoList);
+
     /// @brief Конструктор
     /// @param[in] copyInfoList Список структур об информации для копирования файлов
     void UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList);
