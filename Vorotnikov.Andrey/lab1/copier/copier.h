@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <set>
 
 /// @brief Класс, осуществляющий копирование файлов
 class Copier
@@ -26,12 +27,13 @@ public:
     /// @brief Прочитать конфигурационный файл
     /// @param[in] path Путь к конфигурационному файлу
     /// @param[out] copyInfoList Список структур об информации для копирования файлов
-    /// @return true если прочитать удалось, false - иначе.
+    /// @return true если прочитать удалось, false - иначе
     static bool ReadConfig(const std::string& path, std::vector<CopyInfo>& copyInfoList);
 
     /// @brief Конструктор
     /// @param[in] copyInfoList Список структур об информации для копирования файлов
-    void UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList);
+    /// @return true если удалось обновить данные о копировании, false - иначе.
+    bool UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList);
 
 private:
     /// @brief Экземпляр синглтона
@@ -46,7 +48,7 @@ private:
     /// @brief Структура для сохранения пары расширение-поддиректория
     using ExtSubfolder = std::pair<std::string, std::string>;
     /// @brief Структура хранения информации о директории для копирования файлов
-    using DstDirectory = std::map<std::string, std::vector<ExtSubfolder>>;
+    using DstDirectory = std::map<std::string, std::set<ExtSubfolder>>;
 
     /// @brief Информация о директориях копирования
     std::map<std::string, DstDirectory> dstDirectories_;

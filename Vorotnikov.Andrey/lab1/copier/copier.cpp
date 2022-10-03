@@ -4,6 +4,8 @@
 
 #include "copier.h"
 
+#include <list>
+#include <algorithm>
 #include <fstream>
 #include <sstream>
 
@@ -53,6 +55,29 @@ catch (...)
     return false;
 }
 
-void Copier::UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList)
+bool Copier::UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList)
 {
+    std::list<std::string> sources;
+    std::map<std::string, DstDirectory> dstDirectories;
+    for (const auto& copyInfo : copyInfoList)
+    {
+        auto dstDir = dstDirectories.find(copyInfo.dst);
+        if (dstDirectories.end() == dstDir)
+        {
+            dstDirectories[copyInfo.dst] = DstDirectory();
+            dstDir = dstDirectories.find(copyInfo.dst);
+        }
+        auto& dstDirContent = dstDir->second;
+        auto srcDir = dstDirContent.find(copyInfo.src);
+        auto extensionSubfolder = ExtSubfolder(copyInfo.extension, copyInfo.subfolder);
+        if (dstDirContent.end() == srcDir)
+            dstDirContent[copyInfo.src] = {std::move(extensionSubfolder)};
+        else
+            srcDir->second.insert(std::move(extensionSubfolder));
+    }
+    for (const auto& dst : dstDirectories)
+        if (sources.cend() != std::find(sources.cbegin(), sources.cend(), dst.first))
+            return false;
+    dstDirectories_ = dstDirectories;
+    return true;
 }

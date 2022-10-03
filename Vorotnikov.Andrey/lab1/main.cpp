@@ -8,11 +8,10 @@ int main(void)
 {
     std::vector<Copier::CopyInfo> copyInfoList;
     if (!Copier::ReadConfig("data/test.conf", copyInfoList))
-    {
         return EXIT_FAILURE;
-    }
 
     auto& copier = Copier::GetRef();
-    copier.UpdateCopyInfo({});
+    if (!copier.UpdateCopyInfo(copyInfoList))
+        return EXIT_FAILURE;
     return EXIT_SUCCESS;
 }
