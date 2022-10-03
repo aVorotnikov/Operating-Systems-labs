@@ -32,8 +32,12 @@ public:
 
     /// @brief Конструктор
     /// @param[in] copyInfoList Список структур об информации для копирования файлов
-    /// @return true если удалось обновить данные о копировании, false - иначе.
+    /// @return true если удалось обновить данные о копировании, false - иначе
     bool UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList);
+
+    /// @brief Осуществить копирование файлов
+    /// @return true если удалось осуществить операцию копирования, false - иначе
+    bool Copy();
 
 private:
     /// @brief Экземпляр синглтона
@@ -43,7 +47,7 @@ private:
     Copier() = default;
 
     /// @brief Название поддиректории для файлов, расширения которых не указаны для копирования
-    constexpr static char othersSubfolder[] = "OTHERS";
+    constexpr static char othersSubdirectory[] = "OTHERS";
 
     /// @brief Структура для сохранения пар расширение-поддиректория
     using ExtSubfolders = std::map<std::string, std::set<std::string>>;
