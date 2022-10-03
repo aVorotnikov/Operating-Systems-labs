@@ -31,7 +31,9 @@ private:
 
     // Private constructor so no one can initialize this class except singleton
     Daemon() {}
-
+    // Theese constructors are need to be blocked as well
+    Daemon(const Daemon& root) = delete;
+    Daemon& operator=(const Daemon&) = delete;
 public:
 
     // Initialization function

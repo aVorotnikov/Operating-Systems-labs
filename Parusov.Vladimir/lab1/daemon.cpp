@@ -82,6 +82,8 @@ void Daemon::StartDaemon(void)
 void Daemon::ParseConfig(void)
 {
     syslog(LOG_INFO, "Parse config");
+    
+	m_sleepTime = DEFAULT_SLEEP_TIME;
 
     std::ifstream configFile(m_configPath);
     // open file
@@ -101,7 +103,6 @@ void Daemon::ParseConfig(void)
     // Get sleep in seconds
     if (!(configFile >> m_sleepTime))
     {
-        m_sleepTime = DEFAULT_SLEEP_TIME;
         syslog(LOG_INFO, "Cannot read sleep in seconds. Not doing anything");
         return;
     }
