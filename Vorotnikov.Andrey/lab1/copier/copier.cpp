@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 
 extern Copier Copier::instance;
 
@@ -75,9 +76,10 @@ bool Copier::UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList)
             srcDir = dstDirContent.find(copyInfo.src);
         }
         auto& extSubfolders = srcDir->second;
-        auto extension = extSubfolders.find(copyInfo.extension);
+        std::string dottedExtension = "." + copyInfo.extension;
+        auto extension = extSubfolders.find(dottedExtension);
         if (extSubfolders.end() == extension)
-            extSubfolders[copyInfo.extension] = {copyInfo.subfolder};
+            extSubfolders[dottedExtension] = {copyInfo.subfolder};
         else
             extension->second.insert(copyInfo.subfolder);
     }
@@ -85,5 +87,36 @@ bool Copier::UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList)
         if (sources.cend() != std::find(sources.cbegin(), sources.cend(), dst.first))
             return false;
     dstDirectories_ = dstDirectories;
+    return true;
+}
+
+bool Copier::Copy()
+{
+    const std::set<std::string> othersSubdirs = {othersSubdirectory};
+
+    for (const auto& [dstDirName, dstDirContent] : dstDirectories_)
+    {
+        auto dstDirPath = std::filesystem::path(dstDirName);
+        std::filesystem::remove_all(dstDirPath);
+        std::filesystem::create_directory(dstDirPath);
+        for (const auto& [srcDirName, srcDirContent] : dstDirContent)
+            for (const auto& entry : std::filesystem::directory_iterator(srcDirName))
+            {
+                if (!entry.is_regular_file())
+                    continue;
+                auto path = entry.path();
+                auto subdirs = &othersSubdirs;
+                std::string a = path.extension();
+                auto extensionIt = srcDirContent.find(path.extension());
+                if (srcDirContent.end() != extensionIt)
+                    subdirs = &extensionIt->second;
+                for (const auto& subdir : *subdirs)
+                {
+                    auto subdirPath = dstDirPath / subdir;
+                    std::filesystem::create_directory(subdirPath);
+                    std::filesystem::copy_file(path, subdirPath / path.filename(), std::filesystem::copy_options::skip_existing);
+                }
+            }
+    }
     return true;
 }

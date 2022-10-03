@@ -13,5 +13,8 @@ int main(void)
     auto& copier = Copier::GetRef();
     if (!copier.UpdateCopyInfo(copyInfoList))
         return EXIT_FAILURE;
+
+    copier.Copy();
+
     return EXIT_SUCCESS;
 }
