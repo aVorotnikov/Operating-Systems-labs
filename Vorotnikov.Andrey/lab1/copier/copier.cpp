@@ -69,11 +69,17 @@ bool Copier::UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList)
         }
         auto& dstDirContent = dstDir->second;
         auto srcDir = dstDirContent.find(copyInfo.src);
-        auto extensionSubfolder = ExtSubfolder(copyInfo.extension, copyInfo.subfolder);
         if (dstDirContent.end() == srcDir)
-            dstDirContent[copyInfo.src] = {std::move(extensionSubfolder)};
+        {
+            dstDirContent[copyInfo.src] = ExtSubfolders();
+            srcDir = dstDirContent.find(copyInfo.src);
+        }
+        auto& extSubfolders = srcDir->second;
+        auto extension = extSubfolders.find(copyInfo.extension);
+        if (extSubfolders.end() == extension)
+            extSubfolders[copyInfo.extension] = {copyInfo.subfolder};
         else
-            srcDir->second.insert(std::move(extensionSubfolder));
+            extension->second.insert(copyInfo.subfolder);
     }
     for (const auto& dst : dstDirectories)
         if (sources.cend() != std::find(sources.cbegin(), sources.cend(), dst.first))

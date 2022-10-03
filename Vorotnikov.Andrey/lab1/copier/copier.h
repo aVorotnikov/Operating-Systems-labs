@@ -45,10 +45,10 @@ private:
     /// @brief Название поддиректории для файлов, расширения которых не указаны для копирования
     constexpr static char othersSubfolder[] = "OTHERS";
 
-    /// @brief Структура для сохранения пары расширение-поддиректория
-    using ExtSubfolder = std::pair<std::string, std::string>;
+    /// @brief Структура для сохранения пар расширение-поддиректория
+    using ExtSubfolders = std::map<std::string, std::set<std::string>>;
     /// @brief Структура хранения информации о директории для копирования файлов
-    using DstDirectory = std::map<std::string, std::set<ExtSubfolder>>;
+    using DstDirectory = std::map<std::string, ExtSubfolders>;
 
     /// @brief Информация о директориях копирования
     std::map<std::string, DstDirectory> dstDirectories_;
