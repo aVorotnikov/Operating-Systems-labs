@@ -82,8 +82,7 @@ void Daemon::StartDaemon(void)
 void Daemon::ParseConfig(void)
 {
     syslog(LOG_INFO, "Parse config");
-    
-	m_sleepTime = DEFAULT_SLEEP_TIME;
+    m_sleepTime = DEFAULT_SLEEP_TIME;
 
     std::ifstream configFile(m_configPath);
     // open file
