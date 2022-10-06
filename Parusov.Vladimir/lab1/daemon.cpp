@@ -99,15 +99,16 @@ void Daemon::ParseConfig(void)
         return;
     }
 
+    m_isValidConfig = true;
+
     // Get sleep in seconds
     if (!(configFile >> m_sleepTime))
     {
-        syslog(LOG_INFO, "Cannot read sleep in seconds. Not doing anything");
+        syslog(LOG_INFO, "Cannot read sleep in seconds. Default time used.");
         return;
     }
 
     syslog(LOG_INFO, "Config loaded successfully");
-    m_isValidConfig = true;
 }
 
 /// Daemon public methods
