@@ -54,11 +54,17 @@ bool Daemon::SetParams(
     return true;
 }
 
+bool Daemon::Init()
+{
+    onReloadConfig_(configPath_);
+    return true;
+}
+
 bool Daemon::Run()
 {
     if (!needWork_)
         return false;
-    while (true)
+    while (needWork_)
     {
         std::unique_lock lock(workMtx_);
         work_.wait_for(lock, duration_, [daemon = this]() {return daemon->needWork_;});
