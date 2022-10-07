@@ -12,10 +12,6 @@
 class Copier
 {
 public:
-    /// @brief Получить ссылку на экземпляр синглтона
-    /// @return Ссылка на экземпляр
-    static Copier& GetRef();
-
     /// @brief Структура конфигурации
     struct CopyInfo
     {
@@ -32,6 +28,9 @@ public:
     static bool ReadConfig(const std::string& path, std::vector<CopyInfo>& copyInfoList);
 
     /// @brief Конструктор
+    Copier() = default;
+
+    /// @brief Конструктор
     /// @param[in] copyInfoList Список структур об информации для копирования файлов
     /// @return true если удалось обновить данные о копировании, false - иначе
     bool UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList);
@@ -41,12 +40,6 @@ public:
     bool Copy();
 
 private:
-    /// @brief Экземпляр синглтона
-    static Copier instance;
-
-    /// @brief Конструктор
-    Copier() = default;
-
     /// @brief Название поддиректории для файлов, расширения которых не указаны для копирования
     constexpr static char othersSubdirectory[] = "OTHERS";
 
