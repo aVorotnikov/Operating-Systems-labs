@@ -10,8 +10,6 @@
 #include <sstream>
 #include <filesystem>
 
-extern Copier Copier::instance;
-
 namespace
 {
 
@@ -26,11 +24,6 @@ std::vector<std::string> SplitString(const std::string& str, char delim = ' ')
 }
 
 } // anonymous namespace
-
-Copier& Copier::GetRef()
-{
-    return instance;
-}
 
 bool Copier::ReadConfig(const std::string& path, std::vector<CopyInfo>& copyInfoList)
 try

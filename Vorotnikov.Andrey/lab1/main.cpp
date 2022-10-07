@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     if (!Copier::ReadConfig(argv[1], copyInfoList))
         return EXIT_FAILURE;
 
-    auto& copier = Copier::GetRef();
+    auto copier = Copier();
     if (!copier.UpdateCopyInfo(copyInfoList))
         return EXIT_FAILURE;
 
