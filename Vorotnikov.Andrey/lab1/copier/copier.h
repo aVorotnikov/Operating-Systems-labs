@@ -30,7 +30,7 @@ public:
     /// @brief Конструктор
     Copier() = default;
 
-    /// @brief Конструктор
+    /// @brief Обновить информацию о копировании
     /// @param[in] copyInfoList Список структур об информации для копирования файлов
     /// @return true если удалось обновить данные о копировании, false - иначе
     bool UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList);
