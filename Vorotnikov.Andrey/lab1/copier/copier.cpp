@@ -86,6 +86,7 @@ bool Copier::UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList)
     for (const auto& dst : dstDirectories)
         if (sources.cend() != std::find(sources.cbegin(), sources.cend(), dst.first))
             return false;
+    std::lock_guard lock(mtx_);
     dstDirectories_ = dstDirectories;
     return true;
 }
@@ -94,6 +95,7 @@ bool Copier::Copy()
 {
     const std::set<std::string> othersSubdirs = {othersSubdirectory};
 
+    std::lock_guard lock(mtx_);
     for (const auto& [dstDirName, dstDirContent] : dstDirectories_)
     {
         auto dstDirPath = std::filesystem::path(dstDirName);

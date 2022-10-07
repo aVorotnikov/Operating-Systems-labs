@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 #include <set>
+#include <mutex>
 
 /// @brief Класс, осуществляющий копирование файлов
 class Copier
@@ -56,4 +57,7 @@ private:
 
     /// @brief Информация о директориях копирования
     std::map<std::string, DstDirectory> dstDirectories_;
+
+    /// @brief Мьютекс для информации о директориях копирования
+    std::mutex mtx_;
 };
