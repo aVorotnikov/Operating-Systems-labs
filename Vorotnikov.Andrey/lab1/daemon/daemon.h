@@ -37,6 +37,10 @@ public:
         const std::chrono::seconds& duration = std::chrono::seconds(defaultDurationInSeconds)
     );
 
+    /// @brief Инициализировать демона
+    /// @return true если удалось инициализировать демон, иначе - false
+    bool Init();
+
     /// @brief Начать работу демона
     /// @return true если удалось запустить демон, иначе - false
     bool Run();
@@ -50,6 +54,9 @@ private:
 
     /// @brief Периодичность срабатывания демона по умолчанию
     constexpr static int defaultDurationInSeconds = 60;
+
+    /// @brief Путь к PID-файлу
+    constexpr static char pifFilePath[] = "/var/run/copying_daemon.pid";
 
     /// @brief Информация о директориях копирования
     std::filesystem::path configPath_;
