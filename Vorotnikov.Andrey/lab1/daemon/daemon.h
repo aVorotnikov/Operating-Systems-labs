@@ -5,11 +5,16 @@
 #include <functional>
 #include <chrono>
 #include <filesystem>
+#include <condition_variable>
 
 /// @brief Класс, осуществляющий копирование файлов
 class Daemon
 {
 public:
+    /// @brief friend-функция обработки сигналов
+    /// @param[in] sig Тип сигнала
+    friend void SignalHandler(const int sig);
+
     /// @brief Получить ссылку на экземпляр синглтона
     /// @return Ссылка на экземпляр
     static Daemon& GetRef();
@@ -27,10 +32,14 @@ public:
     bool SetParams(
         const std::string& path,
         const std::function<void ()>& onWork,
-        const std::function<bool ()>& onReloadConfig,
+        const std::function<void (const std::string&)>& onReloadConfig,
         const std::function<void ()>& onTerminate,
         const std::chrono::seconds& duration = std::chrono::seconds(defaultDurationInSeconds)
     );
+
+    /// @brief Начать работу демона
+    /// @return true если удалось запустить демон, иначе - false
+    bool Run();
 
 private:
     /// @brief Экземпляр синглтона
@@ -45,11 +54,19 @@ private:
     /// @brief Информация о директориях копирования
     std::filesystem::path configPath_;
 
+    /// @brief Функция обратного вызова на работу сервиса
     std::function<void ()> onWork_;
-    std::function<bool ()> onReloadConfig_;
+    /// @brief Функция обратного вызова на перезагрузка файла конфигурации
+    std::function<void (const std::string&)> onReloadConfig_;
+    /// @brief Функция обратного вызова на выключение сервиса
     std::function<void ()> onTerminate_;
+    /// @brief Периодичность срабатывания демона
     std::chrono::seconds duration_;
 
     /// @brief Флаг исполнения
     bool needWork_;
+    /// @brief Условная переменная исполнения
+    std::condition_variable work_;
+    /// @brief Мьютекс
+    std::mutex workMtx_;
 };
