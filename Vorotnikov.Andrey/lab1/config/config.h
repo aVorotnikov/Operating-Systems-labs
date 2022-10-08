@@ -13,6 +13,6 @@ namespace config
 /// @param[out] copyInfoList Список структур об информации для копирования файлов
 /// @param[out] duration Периодичность в секундах
 /// @return true если прочитать удалось, false - иначе
-bool ReadConfig(const std::string& path, std::vector<Copier::CopyInfo>& copyInfoList, unsigned& duration);
+bool Read(const std::string& path, std::vector<Copier::CopyInfo>& copyInfoList, unsigned& duration);
 
 } // namespace config

@@ -3,7 +3,7 @@
 /// @author Воротников Андрей
 
 #include "daemon/daemon.h"
-#include "copier/copier.h"
+#include "config/config.h"
 
 #include <syslog.h>
 #include <iostream>
@@ -21,10 +21,11 @@ int main(int argc, char* argv[])
     daemon.SetParams(
         argv[1],
         std::bind(&Copier::Copy, &copier),
-        [&copier](const std::string& path)
+        [&copier, &daemon](const std::string& path)
         {
             std::vector<Copier::CopyInfo> copyInfoList;
-            if (!Copier::ReadConfig(path, copyInfoList))
+            unsigned duration;
+            if (!config::Read(path, copyInfoList, duration))
             {
                 syslog(LOG_ERR, "Failed to read '%s' config file", path.c_str());
                 return;
@@ -33,6 +34,7 @@ int main(int argc, char* argv[])
                 syslog(LOG_ERR, "Failed to update info from '%s' config file", path.c_str());
             else
                 syslog(LOG_INFO, "Config loaded");
+            daemon.UpdateDuration(std::chrono::seconds(duration));
         },
         [](){}
     );
