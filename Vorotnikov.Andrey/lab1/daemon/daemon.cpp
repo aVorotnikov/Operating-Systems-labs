@@ -105,14 +105,13 @@ bool Daemon::SetParams(
     return true;
 }
 
-bool Daemon::Init()
+void Daemon::Init()
 {
     CheckPid(pidFilePath);
     Forking();
     WritePid(pidFilePath);
     SetSignals();
     onReloadConfig_(configPath_);
-    return true;
 }
 
 bool Daemon::Run()
