@@ -40,11 +40,14 @@ void CheckPid(const std::string& pidFileName)
     syslog(LOG_INFO, "Checking if daemon already running");
     std::ifstream pidFile(pidFileName);
     if (pidFile.is_open())
-        if (int pid; pidFile >> pid && !kill(pid, 0))
+    {
+        int pid = 0;
+        if (pidFile >> pid && !kill(pid, 0))
         {
             syslog(LOG_WARNING, "Killing daemon. PID: %i", pid);
             kill(pid, SIGTERM);
         }
+    }
 }
 
 void Forking()
