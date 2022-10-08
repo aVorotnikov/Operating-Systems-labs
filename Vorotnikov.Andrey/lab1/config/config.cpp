@@ -27,7 +27,7 @@ std::vector<std::string> SplitString(const std::string& str, char delim = ' ')
 
 } // anonymous namespace
 
-bool ReadConfig(const std::string& path, std::vector<Copier::CopyInfo>& copyInfoList, unsigned& duration)
+bool Read(const std::string& path, std::vector<Copier::CopyInfo>& copyInfoList, unsigned& duration)
 try
 {
     static constexpr unsigned configLineWordsCount = 4;
