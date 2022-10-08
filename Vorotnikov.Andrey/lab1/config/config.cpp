@@ -49,9 +49,10 @@ bool Read(const std::string& path, std::vector<Copier::CopyInfo>& copyInfoList, 
                 duration = std::stoul(splitted[0]);
                 continue;
             }
-            if (configLineWordsCount != splitted.size())
+            if (splitted.size() == configLineWordsCount)
+                copyInfoList.push_back(Copier::CopyInfo{splitted[0], splitted[1], splitted[2], splitted[3]});
+            else
                 return false;
-            copyInfoList.push_back(Copier::CopyInfo{splitted[0], splitted[1], splitted[2], splitted[3]});
         }
     }
     catch (...)
