@@ -53,7 +53,7 @@ private:
     Daemon();
 
     /// @brief Периодичность срабатывания демона по умолчанию
-    constexpr static int defaultDurationInSeconds = 60;
+    constexpr static int defaultDurationInSeconds = 5;
 
     /// @brief Путь к PID-файлу
     constexpr static char pidFilePath[] = "/var/run/copying_daemon.pid";

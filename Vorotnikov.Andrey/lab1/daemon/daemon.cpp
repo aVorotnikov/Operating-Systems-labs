@@ -6,6 +6,7 @@
 
 #include <signal.h>
 #include <sys/stat.h>
+#include <syslog.h>
 #include <fstream>
 
 extern Daemon Daemon::instance;
@@ -33,40 +34,58 @@ namespace
 
 void CheckPid(const std::string& pidFileName)
 {
+    syslog(LOG_INFO, "Checking if daemon already running");
     std::ifstream pidFile(pidFileName);
     if (pidFile.is_open())
         if (int pid; pidFile >> pid && !kill(pid, 0))
+        {
+            syslog(LOG_WARNING, "Killing daemon. PID: %i", pid);
             kill(pid, SIGTERM);
+        }
 }
 
 void Forking()
 {
+    syslog(LOG_INFO, "Forking");
     auto stdin_copy = dup(STDIN_FILENO);
     auto stdout_copy = dup(STDOUT_FILENO);
     auto stderr_copy = dup(STDERR_FILENO);
 
     auto pid = fork();
     if (pid < 0)
+    {
         exit(EXIT_FAILURE);
+        syslog(LOG_ERR, "Forking error");
+    }
     if (0 != pid)
         exit(EXIT_SUCCESS);
     umask(0);
     if (chdir("/") < 0)
+    {
+        syslog(LOG_ERR, "Failed to change directory");
         exit(EXIT_FAILURE);
+    }
     for (int x = sysconf(_SC_OPEN_MAX); x >= 0; --x)
         close(x);
 
     dup2(stdin_copy, STDIN_FILENO);
     dup2(stdout_copy, STDOUT_FILENO);
     dup2(stderr_copy, STDERR_FILENO);
+
+    syslog(LOG_INFO, "Forking successed");
 }
 
 void WritePid(const std::string& pidFileName)
 {
+    syslog(LOG_INFO, "Writing PID");
     std::ofstream pidFile(pidFileName);
     if (!pidFile.is_open())
+    {
+        syslog(LOG_ERR, "Writing pid failed - cannot open '%s' file", pidFileName.c_str());
         exit(EXIT_FAILURE);
+    }
     pidFile << getpid();
+    syslog(LOG_INFO, "Writing pid successed");
 }
 
 void SetSignals()
@@ -107,6 +126,8 @@ bool Daemon::SetParams(
 
 void Daemon::Init()
 {
+    openlog("copying_daemon", LOG_NDELAY | LOG_PID | LOG_PERROR, LOG_USER);
+    syslog(LOG_INFO, "Start daemon initialization");
     CheckPid(pidFilePath);
     Forking();
     WritePid(pidFilePath);
@@ -124,5 +145,7 @@ bool Daemon::Run()
         std::unique_lock lock(workMtx_);
         work_.wait_for(lock, duration_, [daemon = this]() {return !daemon->needWork_;});
     }
+    syslog(LOG_INFO, "Daemon finished");
+    closelog();
     return true;
 }
