@@ -49,15 +49,15 @@ public:
     /// @return true если удалось запустить демон, иначе - false
     bool Run();
 
+    /// @brief Периодичность срабатывания демона по умолчанию
+    constexpr static int defaultDurationInSeconds = 60;
+
 private:
     /// @brief Экземпляр синглтона
     static Daemon instance;
 
     /// @brief Конструктор
     Daemon();
-
-    /// @brief Периодичность срабатывания демона по умолчанию
-    constexpr static int defaultDurationInSeconds = 5;
 
     /// @brief Путь к PID-файлу
     constexpr static char pidFilePath[] = "/var/run/copying_daemon.pid";
