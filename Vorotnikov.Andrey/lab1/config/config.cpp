@@ -28,7 +28,6 @@ std::vector<std::string> SplitString(const std::string& str, char delim = ' ')
 } // anonymous namespace
 
 bool Read(const std::string& path, std::vector<Copier::CopyInfo>& copyInfoList, unsigned& duration)
-try
 {
     static constexpr unsigned configLineWordsCount = 4;
     static constexpr unsigned durationLineWordsCount = 1;
@@ -38,25 +37,28 @@ try
     std::string line;
 
     duration = Daemon::defaultDurationInSeconds;
-    while (std::getline(config, line))
+    try
     {
-        if (line.empty())
-            continue;
-        auto splitted = SplitString(line);
-        if (durationLineWordsCount == splitted.size())
+        while (std::getline(config, line))
         {
-            duration = std::stoul(splitted[0]);
-            continue;
+            if (line.empty())
+                continue;
+            auto splitted = SplitString(line);
+            if (durationLineWordsCount == splitted.size())
+            {
+                duration = std::stoul(splitted[0]);
+                continue;
+            }
+            if (configLineWordsCount != splitted.size())
+                return false;
+            copyInfoList.push_back(Copier::CopyInfo{splitted[0], splitted[1], splitted[2], splitted[3]});
         }
-        if (configLineWordsCount != splitted.size())
-            return false;
-        copyInfoList.push_back(Copier::CopyInfo{splitted[0], splitted[1], splitted[2], splitted[3]});
+    }
+    catch (...)
+    {
+        return false;
     }
     return true;
-}
-catch (...)
-{
-    return false;
 }
 
 } // namespace config
