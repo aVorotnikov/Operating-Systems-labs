@@ -56,7 +56,7 @@ private:
     constexpr static int defaultDurationInSeconds = 60;
 
     /// @brief Путь к PID-файлу
-    constexpr static char pifFilePath[] = "/var/run/copying_daemon.pid";
+    constexpr static char pidFilePath[] = "/var/run/copying_daemon.pid";
 
     /// @brief Информация о директориях копирования
     std::filesystem::path configPath_;
