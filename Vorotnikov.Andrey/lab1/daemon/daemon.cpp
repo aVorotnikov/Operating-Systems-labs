@@ -4,9 +4,10 @@
 
 #include "daemon.h"
 
-#include <signal.h>
-#include <sys/stat.h>
+#include <unistd.h>
+#include <csignal>
 #include <syslog.h>
+#include <sys/stat.h>
 #include <fstream>
 
 extern Daemon Daemon::instance;
