@@ -37,6 +37,10 @@ public:
         const std::chrono::seconds& duration = std::chrono::seconds(defaultDurationInSeconds)
     );
 
+    /// @brief Обновить периодичность
+    /// @param duration Периодичность
+    void UpdateDuration(const std::chrono::seconds& duration = std::chrono::seconds(defaultDurationInSeconds));
+
     /// @brief Инициализировать демона
     /// @return true если удалось инициализировать демон, иначе - false
     void Init();
@@ -70,6 +74,8 @@ private:
     /// @brief Периодичность срабатывания демона
     std::chrono::seconds duration_;
 
+    /// @brief Флаг было ли обноевление параметров
+    bool updated_;
     /// @brief Флаг исполнения
     bool needWork_;
     /// @brief Условная переменная исполнения

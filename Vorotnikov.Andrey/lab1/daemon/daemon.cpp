@@ -18,6 +18,8 @@ void SignalHandler(const int sig)
     {
     case SIGHUP:
         instance.onReloadConfig_(instance.configPath_);
+        instance.updated_ = true;
+        instance.work_.notify_one();
         break;
     case SIGTERM:
         instance.onTerminate_();
@@ -101,7 +103,7 @@ Daemon& Daemon::GetRef()
     return instance;
 }
 
-Daemon::Daemon() : needWork_(false)
+Daemon::Daemon() : updated_(false), needWork_(false)
 {
 }
 
@@ -124,6 +126,11 @@ bool Daemon::SetParams(
     return true;
 }
 
+void Daemon::UpdateDuration(const std::chrono::seconds& duration)
+{
+    duration_= duration;
+}
+
 void Daemon::Init()
 {
     openlog("copying_daemon", LOG_NDELAY | LOG_PID | LOG_PERROR, LOG_USER);
@@ -141,9 +148,10 @@ bool Daemon::Run()
         return false;
     while (needWork_)
     {
+        updated_ = false;
         onWork_();
         std::unique_lock lock(workMtx_);
-        work_.wait_for(lock, duration_, [daemon = this]() {return !daemon->needWork_;});
+        work_.wait_for(lock, duration_, [daemon = this]() {return !daemon->needWork_ || daemon->updated_;});
     }
     syslog(LOG_INFO, "Daemon finished");
     closelog();
