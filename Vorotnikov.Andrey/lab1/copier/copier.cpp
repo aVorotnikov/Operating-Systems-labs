@@ -15,14 +15,14 @@ bool Copier::UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList)
     for (const auto& copyInfo : copyInfoList)
     {
         auto dstDir = dstDirectories.find(copyInfo.dst);
-        if (dstDirectories.end() == dstDir)
+        if (dstDirectories.cend() == dstDir)
         {
             dstDirectories[copyInfo.dst] = DstDirectory();
             dstDir = dstDirectories.find(copyInfo.dst);
         }
         auto& dstDirContent = dstDir->second;
         auto srcDir = dstDirContent.find(copyInfo.src);
-        if (dstDirContent.end() == srcDir)
+        if (dstDirContent.cend() == srcDir)
         {
             dstDirContent[copyInfo.src] = ExtSubfolders();
             srcDir = dstDirContent.find(copyInfo.src);
@@ -30,7 +30,7 @@ bool Copier::UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList)
         auto& extSubfolders = srcDir->second;
         std::string dottedExtension = "." + copyInfo.extension;
         auto extension = extSubfolders.find(dottedExtension);
-        if (extSubfolders.end() == extension)
+        if (extSubfolders.cend() == extension)
             extSubfolders[dottedExtension] = {copyInfo.subfolder};
         else
             extension->second.insert(copyInfo.subfolder);
@@ -60,9 +60,8 @@ bool Copier::Copy()
                     continue;
                 auto path = entry.path();
                 auto subdirs = &othersSubdirs;
-                std::string a = path.extension();
                 auto extensionIt = srcDirContent.find(path.extension());
-                if (srcDirContent.end() != extensionIt)
+                if (srcDirContent.cend() != extensionIt)
                     subdirs = &extensionIt->second;
                 for (const auto& subdir : *subdirs)
                 {
