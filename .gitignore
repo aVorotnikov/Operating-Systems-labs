@@ -3,3 +3,6 @@
 
 # Build directory
 build
+
+# Test files
+test_files
