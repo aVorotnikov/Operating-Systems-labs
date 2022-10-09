@@ -60,8 +60,8 @@ void Forking()
     auto pid = fork();
     if (pid < 0)
     {
-        exit(EXIT_FAILURE);
         syslog(LOG_ERR, "Forking error");
+        exit(EXIT_FAILURE);
     }
     if (0 != pid)
         exit(EXIT_SUCCESS);
