@@ -31,7 +31,7 @@ public:
     /// @return true если удалось установить параметры, иначе - false
     bool SetParams(
         const std::string& path,
-        const std::function<void ()>& onWork,
+        const std::function<bool ()>& onWork,
         const std::function<void (const std::string&)>& onReloadConfig,
         const std::function<void ()>& onTerminate,
         const std::chrono::seconds& duration = std::chrono::seconds(defaultDurationInSeconds)
@@ -66,7 +66,7 @@ private:
     std::filesystem::path configPath_;
 
     /// @brief Функция обратного вызова на работу сервиса
-    std::function<void ()> onWork_;
+    std::function<bool ()> onWork_;
     /// @brief Функция обратного вызова на перезагрузка файла конфигурации
     std::function<void (const std::string&)> onReloadConfig_;
     /// @brief Функция обратного вызова на выключение сервиса

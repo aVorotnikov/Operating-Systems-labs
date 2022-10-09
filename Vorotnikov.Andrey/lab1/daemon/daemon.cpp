@@ -113,7 +113,7 @@ Daemon::Daemon() : updated_(false), needWork_(false)
 
 bool Daemon::SetParams(
     const std::string& path,
-    const std::function<void ()>& onWork,
+    const std::function<bool ()>& onWork,
     const std::function<void (const std::string&)>& onReloadConfig,
     const std::function<void ()>& onTerminate,
     const std::chrono::seconds& duration
@@ -153,7 +153,8 @@ bool Daemon::Run()
     while (needWork_)
     {
         updated_ = false;
-        onWork_();
+        if (!onWork_())
+            syslog(LOG_ERR, "Error while daemon work");
         std::unique_lock lock(workMtx_);
         work_.wait_for(lock, duration_, [daemon = this]() {return !daemon->needWork_ || daemon->updated_;});
     }
