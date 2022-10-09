@@ -4,13 +4,12 @@
 
 #include "copier.h"
 
-#include <list>
 #include <algorithm>
 #include <filesystem>
 
 bool Copier::UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList)
 {
-    std::list<std::string> sources;
+    std::set<std::string> sources;
     std::map<std::string, DstDirectory> dstDirectories;
     for (const auto& copyInfo : copyInfoList)
     {
@@ -27,6 +26,7 @@ bool Copier::UpdateCopyInfo(const std::vector<CopyInfo>& copyInfoList)
             dstDirContent[copyInfo.src] = ExtSubfolders();
             srcDir = dstDirContent.find(copyInfo.src);
         }
+        sources.insert(copyInfo.src);
         auto& extSubfolders = srcDir->second;
         std::string dottedExtension = "." + copyInfo.extension;
         auto extension = extSubfolders.find(dottedExtension);
