@@ -1,0 +1,22 @@
+[
+{
+  "directory": "/home/alex/GitHub/Operating-Systems-labs/Sachuk.Alex/lab1/build",
+  "command": "/usr/bin/c++   -Wall -Werror -g -std=gnu++14 -o CMakeFiles/lab1_10.dir/ConfigReader/configReader.cpp.o -c /home/alex/GitHub/Operating-Systems-labs/Sachuk.Alex/lab1/ConfigReader/configReader.cpp",
+  "file": "/home/alex/GitHub/Operating-Systems-labs/Sachuk.Alex/lab1/ConfigReader/configReader.cpp"
+},
+{
+  "directory": "/home/alex/GitHub/Operating-Systems-labs/Sachuk.Alex/lab1/build",
+  "command": "/usr/bin/c++   -Wall -Werror -g -std=gnu++14 -o CMakeFiles/lab1_10.dir/Logger/logger.cpp.o -c /home/alex/GitHub/Operating-Systems-labs/Sachuk.Alex/lab1/Logger/logger.cpp",
+  "file": "/home/alex/GitHub/Operating-Systems-labs/Sachuk.Alex/lab1/Logger/logger.cpp"
+},
+{
+  "directory": "/home/alex/GitHub/Operating-Systems-labs/Sachuk.Alex/lab1/build",
+  "command": "/usr/bin/c++   -Wall -Werror -g -std=gnu++14 -o CMakeFiles/lab1_10.dir/Daemon/daemon.cpp.o -c /home/alex/GitHub/Operating-Systems-labs/Sachuk.Alex/lab1/Daemon/daemon.cpp",
+  "file": "/home/alex/GitHub/Operating-Systems-labs/Sachuk.Alex/lab1/Daemon/daemon.cpp"
+},
+{
+  "directory": "/home/alex/GitHub/Operating-Systems-labs/Sachuk.Alex/lab1/build",
+  "command": "/usr/bin/c++   -Wall -Werror -g -std=gnu++14 -o CMakeFiles/lab1_10.dir/main.cpp.o -c /home/alex/GitHub/Operating-Systems-labs/Sachuk.Alex/lab1/main.cpp",
+  "file": "/home/alex/GitHub/Operating-Systems-labs/Sachuk.Alex/lab1/main.cpp"
+}
+]
