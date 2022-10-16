@@ -143,7 +143,9 @@ void FileMoverDaemon::moveFiles()
             if (pathExist(fromPath) && pathExist(toPath))
             {
                 syslog(LOG_INFO, "Move files with %s extension from %s to %s", ext.c_str(), fromPath.c_str(), toPath.c_str());
-                std::string command = "mv " + std::filesystem::absolute(fromPath).string() 
+                std::string command = "rm -r " + std::filesystem::absolute(toPath).string() + "/*";
+                system(command.c_str());
+                command = "mv " + std::filesystem::absolute(fromPath).string() 
                             + "/*." + ext + " " + std::filesystem::absolute(toPath).string();
                 system(command.c_str());
             }

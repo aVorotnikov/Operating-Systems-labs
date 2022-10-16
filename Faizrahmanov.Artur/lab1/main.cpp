@@ -2,24 +2,15 @@
 #include <fstream>
 #include "FileMoverDaemon.h"
 
-// Пользователь задаёт конфигурационный файл, состоящий из произвольного числа строк вида: folder1 folder2 ext.
-// Копировать из folder1 в папку folder2 все файлы с расширением “ext”, предварительно очищая содержимое папки folder2
-
-int main()
+int main(int argc, char** argv)
 {
-    FileMoverDaemon::getInstance()->initialize("./config.txt");
+    if (argc != 2)
+    {
+        std::cout << "Incorrect arguments" << std::endl;
+        return EXIT_FAILURE;
+    }
+    FileMoverDaemon::getInstance()->initialize(argv[1]);
     FileMoverDaemon::getInstance()->run();
-
-    // Config *instance = Config::getInstance();
-    // instance->setConfigPath("./config.txt");
-    // if (instance->readConfig())
-    // {
-    //     do
-    //     {
-    //         std::cout << instance->getFileExt() << std::endl;
-    //     } while (instance->next());
-    // }
-    // std::cout << instance->getSleepDuration() << std::endl;
 
     return 0;
 }
