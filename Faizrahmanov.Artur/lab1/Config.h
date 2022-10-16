@@ -15,6 +15,8 @@ private:
     int sleepDuration = 0;
 
     std::vector<PathsAndFileExt>::iterator curIterator;
+
+    bool configReaded = false;
 public:
     Config(Config& other) = delete;
     void operator=(const Config& other) = delete;
@@ -33,6 +35,8 @@ public:
     std::string getToPath() const;
     std::string getFileExt() const;
     int getSleepDuration() const;
+
+    bool isConfigReaded() const;
 private:
     Config();
 };

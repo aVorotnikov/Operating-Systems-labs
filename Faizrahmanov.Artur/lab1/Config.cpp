@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 
 Config *Config::instance = nullptr;
 
@@ -19,7 +20,6 @@ Config *Config::getInstance()
 {
     if (instance == nullptr)
     {
-        std::cout << "New config" << std::endl;
         instance = new Config();
     }
 
@@ -28,11 +28,15 @@ Config *Config::getInstance()
 
 void Config::setConfigPath(const std::string &configPath)
 {
-    this->configPath = configPath;
+    this->configPath = std::filesystem::absolute(configPath);
 }
 
 bool Config::readConfig()
 {
+    sleepDuration = 0;
+    pathsAndFileExt.clear();
+    configReaded = false;
+
     std::ifstream file;
 
     file.open(configPath);
@@ -83,6 +87,7 @@ bool Config::readConfig()
         return false;
 
     curIterator = pathsAndFileExt.begin();
+    configReaded = true;
 
     return true;
 }
@@ -121,4 +126,9 @@ std::string Config::getFileExt() const
 int Config::getSleepDuration() const
 {
     return sleepDuration;
+}
+
+bool Config::isConfigReaded() const
+{
+    return configReaded;
 }
