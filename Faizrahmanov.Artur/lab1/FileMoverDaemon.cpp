@@ -156,7 +156,14 @@ void FileMoverDaemon::moveFiles()
 
 bool FileMoverDaemon::pathExist(const std::string &path) const
 {
-    return std::filesystem::exists(path);
+    bool exists = std::filesystem::exists(path);
+
+    if (!exists)
+    {
+        syslog(LOG_INFO, "Folder not found %s", path.c_str());
+    }
+
+    return exists;
 }
 
 void FileMoverDaemon::stop()
