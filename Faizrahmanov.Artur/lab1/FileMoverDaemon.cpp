@@ -1,9 +1,11 @@
 #include "FileMoverDaemon.h"
 #include "Config.h"
 
+#include <cstdlib>
 #include <csignal>
 #include <fstream>
 #include <filesystem>
+#include <fcntl.h>
 
 FileMoverDaemon *FileMoverDaemon::instance = nullptr;
 
@@ -94,6 +96,10 @@ void FileMoverDaemon::createPid()
 
     signal(SIGHUP, signalHandler);
     signal(SIGTERM, signalHandler);
+
+    dup2(open("/dev/null", O_RDONLY), STDIN_FILENO);
+    dup2(open("/dev/null", O_WRONLY), STDOUT_FILENO);
+    dup2(open("/dev/null", O_WRONLY), STDERR_FILENO);
 }
 
 void FileMoverDaemon::destructOldPid()
