@@ -25,14 +25,14 @@ bool Logger::GetAllDirsAndFiles(const std::string& directoryPath, std::queue<std
     struct dirent *ent;
     dirsAndFiles = std::queue<std::string>();
 
-    if ((dir = opendir(firstDirPath.c_str())) != NULL) {
-        while ((ent = readdir (dir)) != NULL)
-            dirsAndFiles.push(ent->d_name);
-
-        closedir (dir);
-        return true;
-    } else
+    if ((dir = opendir(firstDirPath.c_str())) == NULL) 
         return false;
+
+    while ((ent = readdir (dir)) != NULL)
+        dirsAndFiles.push(ent->d_name);
+
+    closedir(dir);
+    return true;    
 }
 
 
@@ -43,7 +43,7 @@ std::string Logger::GenerateLogString(std::queue<std::string>& dirsAndFiles) {
     if (dirsAndFiles.size() == 0)
         outputStr = "No files and directories in '" + firstDirPath + "'";
     else {
-        outputStr = "";//"Files and dirs: ";
+        outputStr = "";
         bool isFirstFile = true;
         while (dirsAndFiles.empty() == false) {
             if (!isFirstFile)
@@ -60,36 +60,31 @@ std::string Logger::GenerateLogString(std::queue<std::string>& dirsAndFiles) {
 
 // Method, which provides logging
 bool Logger::Log(void) {
-    // for debug...
-    std::cout << firstDirPath << ", " << secondDirPath << ", " << refreshDuration << std::endl;
-    try {
-        // create/open log filestream
-        std::ofstream logFile(secondDirPath + "/" + LOGGER_FILE_NAME, std::ios_base::app);
+    // create/open log filestream
+    std::ofstream logFile(secondDirPath + "/" + LOGGER_FILE_NAME, std::ios_base::app);
         
-        // get files and dirs
-        std::queue<std::string> dirsAndFiles;
-        std::string outputStr;
+    if (!logFile.is_open())
+        return false;
 
-        if (GetAllDirsAndFiles(firstDirPath, dirsAndFiles) == true) {
-            // print date and time
-            auto current = std::chrono::system_clock::now();
-            std::time_t currentTime = std::chrono::system_clock::to_time_t(current);
-            outputStr = GenerateLogString(dirsAndFiles);
+    // get files and dirs
+    std::queue<std::string> dirsAndFiles;
+    std::string outputStr;
 
-            logFile << std::endl << std::ctime(&currentTime);
-            logFile << outputStr << std::endl;
-        }
-        else {
-            logFile.close();
-            return false;
-        }
+    if (GetAllDirsAndFiles(firstDirPath, dirsAndFiles) == true) {
+        // print date and time
+        auto current = std::chrono::system_clock::now();
+        std::time_t currentTime = std::chrono::system_clock::to_time_t(current);
+        outputStr = GenerateLogString(dirsAndFiles);
+
+        logFile << std::endl << std::ctime(&currentTime);
+        logFile << outputStr << std::endl;
 
         // close file stream and leave
         logFile.close();
         return true;
     }
-    catch(...) {
+    else {
+        logFile.close();
         return false;
     }
-    return false;
 }

@@ -33,6 +33,11 @@ public:
 
     // Method, which provides logging
     bool Log(void);
+
+    // Method, which returns refresh duration
+    uint GetRefreshDuration() { return refreshDuration; };
+    std::string GetFirstDir() { return firstDirPath; };
+    std::string GetSecondDir() { return secondDirPath; };
 private:
     // Method, which provides executing directory 
     bool GetAllDirsAndFiles(const std::string& directoryPath, std::queue<std::string>& dirsAndFiles);

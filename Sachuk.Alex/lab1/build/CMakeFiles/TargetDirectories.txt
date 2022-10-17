@@ -1,3 +1,0 @@
-/home/alex/GitHub/Operating-Systems-labs/Sachuk.Alex/lab1/build/CMakeFiles/lab1_10.dir
-/home/alex/GitHub/Operating-Systems-labs/Sachuk.Alex/lab1/build/CMakeFiles/edit_cache.dir
-/home/alex/GitHub/Operating-Systems-labs/Sachuk.Alex/lab1/build/CMakeFiles/rebuild_cache.dir

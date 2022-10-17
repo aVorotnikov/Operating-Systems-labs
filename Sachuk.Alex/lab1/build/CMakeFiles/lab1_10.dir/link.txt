@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wall -Werror -g CMakeFiles/lab1_10.dir/ConfigReader/configReader.cpp.o CMakeFiles/lab1_10.dir/Logger/logger.cpp.o CMakeFiles/lab1_10.dir/Daemon/daemon.cpp.o CMakeFiles/lab1_10.dir/main.cpp.o -o lab1_10 

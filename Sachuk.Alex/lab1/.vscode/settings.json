@@ -52,7 +52,11 @@
         "chrono": "cpp",
         "codecvt": "cpp",
         "ratio": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "csignal": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }
