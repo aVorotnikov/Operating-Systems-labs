@@ -123,8 +123,15 @@ void FileMoverDaemon::run()
 {
     while (isRunning)
     {
-        moveFiles();
-        sleep(Config::getInstance()->getSleepDuration());
+        if (Config::getInstance()->isConfigReaded())
+        {
+            moveFiles();
+            sleep(Config::getInstance()->getSleepDuration());
+        }
+        else
+        {
+            syslog(LOG_INFO, "Config not read");
+        }
     }
 }
 
@@ -132,26 +139,22 @@ void FileMoverDaemon::moveFiles()
 {
     syslog(LOG_INFO, "Start move files");
 
-    if (Config::getInstance()->isConfigReaded())
+    do
     {
-        do
+        std::string fromPath = Config::getInstance()->getFromPath();
+        std::string toPath = Config::getInstance()->getToPath();
+        std::string ext = Config::getInstance()->getFileExt();
+
+        if (pathExist(fromPath) && pathExist(toPath))
         {
-            std::string fromPath = Config::getInstance()->getFromPath();
-            std::string toPath = Config::getInstance()->getToPath();
-            std::string ext = Config::getInstance()->getFileExt();
+            syslog(LOG_INFO, "Move files with %s extension from %s to %s", ext.c_str(), fromPath.c_str(), toPath.c_str());
+            std::string command = "rm -r " + std::filesystem::absolute(toPath).string() + "/*";
+            system(command.c_str());
+            command = "mv " + std::filesystem::absolute(fromPath).string() + "/*." + ext + " " + std::filesystem::absolute(toPath).string();
+            system(command.c_str());
+        }
 
-            if (pathExist(fromPath) && pathExist(toPath))
-            {
-                syslog(LOG_INFO, "Move files with %s extension from %s to %s", ext.c_str(), fromPath.c_str(), toPath.c_str());
-                std::string command = "rm -r " + std::filesystem::absolute(toPath).string() + "/*";
-                system(command.c_str());
-                command = "mv " + std::filesystem::absolute(fromPath).string() 
-                            + "/*." + ext + " " + std::filesystem::absolute(toPath).string();
-                system(command.c_str());
-            }
-
-        } while (Config::getInstance()->next());
-    }
+    } while (Config::getInstance()->next());
 }
 
 bool FileMoverDaemon::pathExist(const std::string &path) const
