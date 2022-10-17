@@ -66,9 +66,9 @@ bool Config::readConfig()
             }
             else if (tokenCount == 3)
             {
-                tmp.first.first = tokens[0];
-                tmp.first.second = tokens[1];
-                tmp.second = tokens[2];
+                tmp.pathFrom = tokens[0];
+                tmp.pathTo = tokens[1];
+                tmp.ext = tokens[2];
                 pathsAndFileExt.push_back(tmp);
             }
             else
@@ -106,21 +106,17 @@ bool Config::next()
 
 std::string Config::getFromPath() const
 {
-    PathFromAndTo paths = (*curIterator).first;
-
-    return paths.first;
+    return (*curIterator).pathFrom;
 }
 
 std::string Config::getToPath() const
 {
-    PathFromAndTo paths = (*curIterator).first;
-
-    return paths.second;
+    return (*curIterator).pathTo;
 }
 
 std::string Config::getFileExt() const
 {
-    return (*curIterator).second;
+    return (*curIterator).ext;
 }
 
 int Config::getSleepDuration() const

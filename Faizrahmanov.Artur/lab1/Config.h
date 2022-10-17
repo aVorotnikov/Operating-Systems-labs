@@ -5,9 +5,16 @@
 
 class Config
 {
-    using PathFromAndTo = std::pair<std::string, std::string>;
-    using PathsAndFileExt = std::pair<PathFromAndTo, std::string>;
+    // using PathFromAndTo = std::pair<std::string, std::string>;
+    // using PathsAndFileExt = std::pair<PathFromAndTo, std::string>;
 private:
+    struct PathsAndFileExt
+    {
+        std::string pathFrom;
+        std::string pathTo;
+        std::string ext;
+    };
+
     std::string configPath;
     static Config* instance; 
 
