@@ -5,9 +5,10 @@
 
 class Config
 {
-    // using PathFromAndTo = std::pair<std::string, std::string>;
-    // using PathsAndFileExt = std::pair<PathFromAndTo, std::string>;
 private:
+    static constexpr size_t SLEEP_TOKEN_COUNT = 1;
+    static constexpr size_t PATHS_TOKEN_COUNT = 3;
+
     struct PathsAndFileExt
     {
         std::string pathFrom;

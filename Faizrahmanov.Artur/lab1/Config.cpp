@@ -7,10 +7,6 @@
 
 Config *Config::instance = nullptr;
 
-Config::Config()
-{
-}
-
 Config::~Config()
 {
     delete instance;
@@ -59,12 +55,12 @@ bool Config::readConfig()
             }
 
             PathsAndFileExt tmp;
-            int tokenCount = tokens.size();
-            if (tokenCount == 1)
+            size_t tokenCount = tokens.size();
+            if (tokenCount == SLEEP_TOKEN_COUNT)
             {
                 sleepDuration = std::stoi(tokens.at(0));
             }
-            else if (tokenCount == 3)
+            else if (tokenCount == PATHS_TOKEN_COUNT)
             {
                 tmp.pathFrom = tokens[0];
                 tmp.pathTo = tokens[1];
@@ -83,7 +79,7 @@ bool Config::readConfig()
         return false;
     }
 
-    if (pathsAndFileExt.size() == 0)
+    if (pathsAndFileExt.empty())
         return false;
 
     curIterator = pathsAndFileExt.begin();

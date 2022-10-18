@@ -12,5 +12,5 @@ int main(int argc, char** argv)
     FileMoverDaemon::getInstance()->initialize(argv[1]);
     FileMoverDaemon::getInstance()->run();
 
-    return 0;
+    return EXIT_SUCCESS;
 }
