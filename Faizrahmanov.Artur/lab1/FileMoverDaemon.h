@@ -10,30 +10,29 @@ class FileMoverDaemon
 private:
     const std::string PID_PATH = "/var/run/fileMover.pid";
 
-    static FileMoverDaemon* instance;
-
     bool isRunning;
+
 public:
-    FileMoverDaemon(FileMoverDaemon& other) = delete;
-    void operator=(const FileMoverDaemon& other) = delete;
+    ~FileMoverDaemon() = default;
 
-    ~FileMoverDaemon();
+    static FileMoverDaemon& getInstance();
 
-    static FileMoverDaemon* getInstance();
-
-    void initialize(const std::string& configPath);
+    void initialize(const std::string &configPath);
 
     void run();
     void stop();
 
 private:
-    FileMoverDaemon();
+    FileMoverDaemon() = default;
+
+    FileMoverDaemon(FileMoverDaemon &other) = delete;
+    void operator=(const FileMoverDaemon &other) = delete;
 
     void createPid();
     void moveFiles();
-    void removeFiles(const std::string& path);
+    void removeFiles(const std::string &path);
 
     void destructOldPid();
 
-    bool pathExist(const std::string& path) const;
+    bool pathExist(const std::string &path) const;
 };

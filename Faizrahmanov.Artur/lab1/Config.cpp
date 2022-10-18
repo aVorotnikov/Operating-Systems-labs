@@ -5,20 +5,9 @@
 #include <sstream>
 #include <filesystem>
 
-Config *Config::instance = nullptr;
-
-Config::~Config()
+Config& Config::getInstance()
 {
-    delete instance;
-}
-
-Config *Config::getInstance()
-{
-    if (instance == nullptr)
-    {
-        instance = new Config();
-    }
-
+    static Config instance;
     return instance;
 }
 

@@ -17,7 +17,6 @@ private:
     };
 
     std::string configPath;
-    static Config* instance; 
 
     std::vector<PathsAndFileExt> pathsAndFileExt;
     int sleepDuration = 0;
@@ -26,12 +25,9 @@ private:
 
     bool configReaded = false;
 public:
-    Config(Config& other) = delete;
-    void operator=(const Config& other) = delete;
+    ~Config() = default;
 
-    ~Config();
-
-    static Config* getInstance();
+    static Config& getInstance();
 
     void setConfigPath(const std::string& configPath);
 
@@ -47,4 +43,6 @@ public:
     bool isConfigReaded() const;
 private:
     Config() = default;
+    Config(Config& other) = delete;
+    void operator=(const Config& other) = delete;
 };

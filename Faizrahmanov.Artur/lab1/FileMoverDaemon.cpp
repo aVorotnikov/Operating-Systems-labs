@@ -7,24 +7,9 @@
 #include <filesystem>
 #include <fcntl.h>
 
-FileMoverDaemon *FileMoverDaemon::instance = nullptr;
-
-FileMoverDaemon::FileMoverDaemon()
+FileMoverDaemon& FileMoverDaemon::getInstance()
 {
-}
-
-FileMoverDaemon::~FileMoverDaemon()
-{
-    delete instance;
-}
-
-FileMoverDaemon *FileMoverDaemon::getInstance()
-{
-    if (instance == nullptr)
-    {
-        instance = new FileMoverDaemon();
-    }
-
+    static FileMoverDaemon instance;
     return instance;
 }
 
@@ -34,12 +19,12 @@ void signalHandler(int signal)
     {
     case SIGTERM:
         syslog(LOG_INFO, "Process terminated");
-        FileMoverDaemon::getInstance()->stop();
+        FileMoverDaemon::getInstance().stop();
         closelog();
         break;
     case SIGHUP:
         syslog(LOG_INFO, "Read config");
-        if (!Config::getInstance()->readConfig())
+        if (!Config::getInstance().readConfig())
             syslog(LOG_INFO, "Config is not in the correct format");
         break;
     default:
@@ -52,8 +37,8 @@ void FileMoverDaemon::initialize(const std::string &configPath)
 {
     openlog("FileMoverDaemon", LOG_PID, LOG_DAEMON);
     syslog(LOG_INFO, "Read config");
-    Config::getInstance()->setConfigPath(configPath);
-    if (!Config::getInstance()->readConfig())
+    Config::getInstance().setConfigPath(configPath);
+    if (!Config::getInstance().readConfig())
         syslog(LOG_INFO, "Config is not in the correct format");
 
     destructOldPid();
@@ -129,10 +114,10 @@ void FileMoverDaemon::run()
 {
     while (isRunning)
     {
-        if (Config::getInstance()->isConfigReaded())
+        if (Config::getInstance().isConfigReaded())
         {
             moveFiles();
-            sleep(Config::getInstance()->getSleepDuration());
+            sleep(Config::getInstance().getSleepDuration());
         }
         else
         {
@@ -147,9 +132,9 @@ void FileMoverDaemon::moveFiles()
 
     do
     {
-        std::string fromPath = Config::getInstance()->getFromPath();
-        std::string toPath = Config::getInstance()->getToPath();
-        std::string ext = Config::getInstance()->getFileExt();
+        std::string fromPath = Config::getInstance().getFromPath();
+        std::string toPath = Config::getInstance().getToPath();
+        std::string ext = Config::getInstance().getFileExt();
 
         if (pathExist(fromPath) && pathExist(toPath))
         {
@@ -174,7 +159,7 @@ void FileMoverDaemon::moveFiles()
             }
         }
 
-    } while (Config::getInstance()->next());
+    } while (Config::getInstance().next());
 }
 
 void FileMoverDaemon::removeFiles(const std::string &path)
