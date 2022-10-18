@@ -19,7 +19,7 @@ private:
     std::string configPath;
 
     std::vector<PathsAndFileExt> pathsAndFileExt;
-    int sleepDuration = 0;
+    unsigned sleepDuration = 0;
 
     std::vector<PathsAndFileExt>::iterator curIterator;
 
@@ -38,7 +38,7 @@ public:
     std::string getFromPath() const;
     std::string getToPath() const;
     std::string getFileExt() const;
-    int getSleepDuration() const;
+    unsigned getSleepDuration() const;
 
     bool isConfigReaded() const;
 private:

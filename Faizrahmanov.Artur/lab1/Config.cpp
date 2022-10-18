@@ -104,7 +104,7 @@ std::string Config::getFileExt() const
     return (*curIterator).ext;
 }
 
-int Config::getSleepDuration() const
+unsigned Config::getSleepDuration() const
 {
     return sleepDuration;
 }
