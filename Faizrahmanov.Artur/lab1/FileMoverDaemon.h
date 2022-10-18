@@ -31,6 +31,7 @@ private:
 
     void createPid();
     void moveFiles();
+    void removeFiles(const std::string& path);
 
     void destructOldPid();
 

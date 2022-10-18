@@ -154,13 +154,35 @@ void FileMoverDaemon::moveFiles()
         if (pathExist(fromPath) && pathExist(toPath))
         {
             syslog(LOG_INFO, "Move files with %s extension from %s to %s", ext.c_str(), fromPath.c_str(), toPath.c_str());
-            std::string command = "rm -r " + std::filesystem::absolute(toPath).string() + "/*";
-            system(command.c_str());
-            command = "mv " + std::filesystem::absolute(fromPath).string() + "/*." + ext + " " + std::filesystem::absolute(toPath).string();
-            system(command.c_str());
+            removeFiles(toPath);
+            try
+            {
+                for (const auto &entry : std::filesystem::directory_iterator(fromPath))
+                {
+                    std::string file = entry.path().string();
+                    if (file.substr(file.find_last_of('.') + 1) == ext)
+                    {
+                        std::filesystem::copy(file, toPath);
+                        std::filesystem::remove(file);
+                        syslog(LOG_INFO, "%s moved", file.c_str());
+                    }
+                }
+            }
+            catch (const std::exception &e)
+            {
+                syslog(LOG_ERR, "%s", e.what());
+            }
         }
 
     } while (Config::getInstance()->next());
+}
+
+void FileMoverDaemon::removeFiles(const std::string &path)
+{
+    for (const auto &entry : std::filesystem::directory_iterator(path))
+    {
+        std::filesystem::remove_all(entry.path());
+    }
 }
 
 bool FileMoverDaemon::pathExist(const std::string &path) const

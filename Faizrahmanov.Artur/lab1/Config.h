@@ -46,5 +46,5 @@ public:
 
     bool isConfigReaded() const;
 private:
-    Config();
+    Config() = default;
 };
