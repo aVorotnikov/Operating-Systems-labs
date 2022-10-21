@@ -148,7 +148,6 @@ void FileMoverDaemon::moveFiles()
                     if (file.substr(file.find_last_of('.') + 1) == ext)
                     {
                         std::filesystem::copy(file, toPath);
-                        std::filesystem::remove(file);
                         syslog(LOG_INFO, "%s moved", file.c_str());
                     }
                 }
