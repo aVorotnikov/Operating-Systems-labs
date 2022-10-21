@@ -9,6 +9,6 @@ cd $BUILD_DIR
 cmake ..
 make
 cd ..
-mkdir $BIN_DIR
+[ ! -d $BIN_DIR ] && mkdir $BIN_DIR
 cp $BUILD_DIR/$BIN_FILE $BIN_DIR
 rm -rf $BUILD_DIR
