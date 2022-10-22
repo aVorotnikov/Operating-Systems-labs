@@ -118,6 +118,14 @@ void Daemon::Init(const std::string& path_to_config) {
 }
 
 void Daemon::CopyDirectory() {
+  if (!std::filesystem::is_directory(dir1)) {
+    syslog(LOG_WARNING, "The first directory does not exist");
+    return;
+  }
+  if (!std::filesystem::is_directory(dir2)) {
+    syslog(LOG_WARNING, "The second directory does not exist");
+    return;
+  }
   for (const auto& entry : std::filesystem::directory_iterator(dir2))
     std::filesystem::remove_all(entry.path());
   std::filesystem::create_directory(std::filesystem::path(dir2) / "IMG");
