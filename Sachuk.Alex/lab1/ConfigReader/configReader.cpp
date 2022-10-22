@@ -11,7 +11,7 @@ namespace ConfigReader {
     }
 
     // Method which read config file data
-    bool ReadConfig(const std::string& configPath, const AbstractConfigDescription& descr, ConfigValues& values) {
+    bool ReadConfig(const std::string& configPath, const ConfigDescription& descr, ConfigValues& values) {
         // Clear old data
         values.strData = std::queue<std::string>();
         values.uintData = std::queue<uint>();

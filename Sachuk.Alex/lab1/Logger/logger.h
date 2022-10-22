@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../ConfigReader/abstractConfigDescription.h"
+#include "../ConfigReader/configDescription.h"
 
 // Class, which describes 'Logger' config data
-class LoggerConfigDescription : public AbstractConfigDescription {
+class LoggerConfigDescription : public ConfigDescription {
 public:
     LoggerConfigDescription() {
         totalLines = LOGGER_CONF_TOTAL_LINES;

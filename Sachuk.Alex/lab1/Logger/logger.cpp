@@ -3,6 +3,7 @@
 #include <dirent.h>
 #include <chrono>
 #include <ctime>
+#include <cstring>
 
 #include "logger.h"
 
@@ -20,6 +21,8 @@ void Logger::Init(ConfigValues& values) {
 
 // Method, which provides executing directory 
 bool Logger::GetAllDirsAndFiles(const std::string& directoryPath, std::queue<std::string>& dirsAndFiles) {
+    std::string CUR_DIR = ".", PARENT_DIR = "..";
+
     // get files and dirs
     DIR *dir;
     struct dirent *ent;
@@ -28,8 +31,9 @@ bool Logger::GetAllDirsAndFiles(const std::string& directoryPath, std::queue<std
     if ((dir = opendir(firstDirPath.c_str())) == NULL) 
         return false;
 
-    while ((ent = readdir (dir)) != NULL)
-        dirsAndFiles.push(ent->d_name);
+    while ((ent = readdir(dir)) != NULL)
+        if ((strcmp(ent->d_name, CUR_DIR.c_str()) != 0) && (strcmp(ent->d_name, PARENT_DIR.c_str()) != 0))
+            dirsAndFiles.push(ent->d_name);
 
     closedir(dir);
     return true;    
