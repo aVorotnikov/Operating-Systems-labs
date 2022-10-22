@@ -1,0 +1,3 @@
+/home/artur/Documents/folder1 /home/artur/Documents/folder2 e
+/home/artur/Documents/folder3 /home/artur/Documents/folder4 b
+50
