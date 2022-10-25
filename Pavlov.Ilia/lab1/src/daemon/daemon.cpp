@@ -48,13 +48,13 @@ void Daemon::Fork() {
   umask(0);
 
   if (setsid() < 0) {
-    exit(EXIT_FAILURE);
     syslog(LOG_ERR, "Fork error");
+    exit(EXIT_FAILURE);
   }
 
   if (chdir("/") < 0) {
-    exit(EXIT_FAILURE);
     syslog(LOG_ERR, "Fork error");
+    exit(EXIT_FAILURE);
   }
   
   for (int x = sysconf(_SC_OPEN_MAX); x >= 0; --x) {
