@@ -5,6 +5,8 @@
 class Daemon {
 private:
   const std::string PATH_TO_PIDFILE = "var/run/lab1.pid";
+  const std::string DIRECTORY_FOR_IMAGES = "IMG";
+  const std::string DIRECTORY_FOR_OTHER_FILES = "OTHER";
   const unsigned int INTERVAL = 60;
   static Daemon instance;
   std::string path_to_config;

@@ -128,14 +128,14 @@ void Daemon::CopyDirectory() {
   }
   for (const auto& entry : std::filesystem::directory_iterator(dir2))
     std::filesystem::remove_all(entry.path());
-  std::filesystem::create_directory(std::filesystem::path(dir2) / "IMG");
-  std::filesystem::create_directory(std::filesystem::path(dir2) / "OTHER");
+  std::filesystem::create_directory(std::filesystem::path(dir2) / DIRECTORY_FOR_IMAGES);
+  std::filesystem::create_directory(std::filesystem::path(dir2) / DIRECTORY_FOR_OTHER_FILES);
   for (const auto& entry : std::filesystem::directory_iterator(dir1)) {
     if (entry.is_regular_file()) {
       if (entry.path().extension() == ".png")
-        std::filesystem::copy(entry.path(), std::filesystem::path(dir2) / "IMG");
+        std::filesystem::copy(entry.path(), std::filesystem::path(dir2) / DIRECTORY_FOR_IMAGES);
       else
-        std::filesystem::copy(entry.path(), std::filesystem::path(dir2) / "OTHER");
+        std::filesystem::copy(entry.path(), std::filesystem::path(dir2) / DIRECTORY_FOR_OTHER_FILES);
     }
   }
 }
