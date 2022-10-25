@@ -84,7 +84,7 @@ void Daemon::CheckPidFile() {
   syslog(LOG_INFO, "Checking pid file");
   std::ifstream pid_file(PATH_TO_PIDFILE);
   if (pid_file.is_open()) {
-    int pid = 0;
+    pid_t pid = 0;
     if (pid_file >> pid && !kill(pid, 0)) {
       kill(pid, SIGTERM);
     }
