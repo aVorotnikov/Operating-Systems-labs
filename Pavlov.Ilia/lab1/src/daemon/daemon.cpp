@@ -14,6 +14,7 @@ Daemon& Daemon::getInstance() {
 }
 
 void Daemon::ReadConfig() {
+  syslog(LOG_INFO, "Reading config");
   std::ifstream config(path_to_config);
   if (!config.is_open()) {
     syslog(LOG_ERR, "Could not open config file");
@@ -107,7 +108,7 @@ void Daemon::WritePidFile() {
 void Daemon::Init(const std::string& path_to_config) {
   openlog("Copy Daemon", LOG_NDELAY | LOG_PID | LOG_PERROR, LOG_USER);
   syslog(LOG_INFO, "Start daemon initialization");
-  this->path_to_config = path_to_config;
+  this->path_to_config = std::filesystem::absolute(path_to_config);
   ReadConfig();
   CheckPidFile();
   Fork();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <filesystem>
 
 class Daemon {
 private:
@@ -9,7 +10,7 @@ private:
   const std::string DIRECTORY_FOR_OTHER_FILES = "OTHER";
   const unsigned int INTERVAL = 60;
   static Daemon instance;
-  std::string path_to_config;
+  std::filesystem::path path_to_config;
   std::string dir1;
   std::string dir2;
   bool term_request = false;
