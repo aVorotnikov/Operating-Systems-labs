@@ -26,13 +26,6 @@ static void _handleSignal(int signal)
     }
 }
 
-static bool _dirExists(const char *path)
-{
-    struct stat info;
-    return stat(path, &info) == 0 &&
-           (info.st_mode & S_IFDIR);
-}
-
 void _deleteFilesWithExtension(const std::string& directory, const std::string& extension)
 {
     for (auto &file : std::filesystem::directory_iterator(directory))
@@ -114,12 +107,9 @@ void DaemonTmpCleaner::Daemonize()
     syslog(LOG_INFO, "Daemonization ends");
 }
 
-void DaemonTmpCleaner::Initialize(std::string configLocalPath)
+void DaemonTmpCleaner::Initialize(const std::string& configLocalPath)
 {
-    char cwdBuf[PATH_MAX];
-    getcwd(cwdBuf, sizeof(cwdBuf));
-    configAbsPath = cwdBuf;
-    configAbsPath += "/" + configLocalPath;
+    configAbsPath = std::filesystem::absolute(configLocalPath);
 
     openlog("DaemonTmpCleaner", LOG_NDELAY | LOG_PID | LOG_PERROR, LOG_USER);
     syslog(LOG_INFO, "Daemon initialization");
@@ -141,7 +131,7 @@ void DaemonTmpCleaner::Run()
 {
     while (!isTerminateReceived)
     {
-        if (!_dirExists(targetDirPath.c_str()))
+        if (!std::filesystem::is_directory(targetDirPath))
         {
             syslog(LOG_WARNING, "Target directory path from config file does not exist, keep waiting");
         }
@@ -188,5 +178,5 @@ void DaemonTmpCleaner::ReloadConfig()
     {
         sleepTime = std::chrono::seconds(sleepTimeSeconds);
     }
-    syslog(LOG_INFO, "Sleep time set to %i seconds", (int)sleepTime.count());
+    syslog(LOG_INFO, "Sleep time set to %li seconds", sleepTime.count());
 }

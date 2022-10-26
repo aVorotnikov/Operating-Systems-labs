@@ -30,7 +30,7 @@ public:
         return instance;
     }
 
-    void Initialize(std::string configLocalPath);
+    void Initialize(const std::string& configLocalPath);
 
     // SIGTERM handler
     void Terminate();
