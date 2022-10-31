@@ -2,24 +2,25 @@
 #define __CONN_SEG_H_
 
 #include <string>
+#include <sys/socket.h>
 
 #include "connection.h"
 
-class seg : public Connection
+class sock : public Connection
 {
 public:
-    seg(pid_t clientPid, bool isCreator);
+    sock(pid_t clientPid, bool isHost);
     void Open(size_t hostPid, bool isCreator) override;
     void Get(void* buf, size_t count) override;
     void Send(void* buf, size_t count) override;
     void Close(void) override;
 
-    ~seg(void);
+    ~sock(void);
 
 private:
-    static const int BULK_SIZE = 256;
-    int m_shmid;
-    void *m_ptr;
+    socklen_t m_host_socket, m_client_socket;
+    std::string m_sock_name;
+    bool m_isHost;
 };
 
 #endif //!__CONN_SEG_H_

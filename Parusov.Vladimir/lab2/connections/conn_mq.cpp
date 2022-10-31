@@ -1,9 +1,5 @@
 
-#include <sys/stat.h>
 #include <fcntl.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
 #include <string.h>
 
 #include "conn_mq.h"

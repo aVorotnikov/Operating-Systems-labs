@@ -10,6 +10,7 @@
 #include <string.h>
 #include <bits/types/siginfo_t.h>
 #include "../gui/gui.h"
+#include "../connections/connection.h"
 
 class Host {
 private:
@@ -31,6 +32,10 @@ private:
     static void SignalHandler(int signum, siginfo_t* info, void *ptr);
     // Connection working function
     void ConnectionWork(void);
+    bool ConnectionPrepare(Connection **con, sem_t **sem_read, sem_t **sem_write);
+    bool ConnectionGetMessages(Connection *con, sem_t *sem_read, sem_t *sem_write);
+    bool ConnectionSendMessages(Connection *con, sem_t *sem_read, sem_t *sem_write);
+    bool ConnectionClose(Connection *con, sem_t *sem_read, sem_t *sem_write);
     // Private constructor
     Host(void);
     // Blocked constructors
