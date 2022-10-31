@@ -29,6 +29,8 @@ private:
     std::atomic<bool> m_isRunning = true;
     // atomic bool for init work
     std::atomic<bool> m_isHostReady = false;
+    GUI *m_gui;
+
     // handler for signals
     static void SignalHandler(int signum, siginfo_t* info, void *ptr);
     // Connection working function
@@ -38,6 +40,9 @@ private:
     bool ConnectionSendMessages(Connection *con, sem_t *sem_read, sem_t *sem_write);
     bool ConnectionClose(Connection *con, sem_t *sem_read, sem_t *sem_write);
 
+    static void GUISend(Message msg);
+    static bool GUIGet(Message *msg);
+
     // Private constructor
     Client(void);
     // Blocked constructors
@@ -46,6 +51,8 @@ private:
 public:
 
     static Client &GetInstance(void) { return m_clientInstance; }
+
+    static bool IsRunning(void) { return GetInstance().m_isRunning.load(); }
 
     void Run(pid_t host_id);
 

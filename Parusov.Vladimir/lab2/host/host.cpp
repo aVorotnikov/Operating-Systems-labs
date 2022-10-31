@@ -64,6 +64,27 @@ Host::Host(void)
   sigaction(SIGUSR1, &sig, nullptr);
 }
 
+void Host::GUISend(Message msg)
+{
+  Host::GetInstance().m_outputMessagesMutex.lock();
+  Host::GetInstance().m_outputMessages.push(msg);
+  Host::GetInstance().m_outputMessagesMutex.unlock();
+}
+
+bool Host::GUIGet(Message *msg)
+{
+  Host::GetInstance().m_inputMessagesMutex.lock();
+  if (Host::GetInstance().m_inputMessages.empty())
+  {
+    Host::GetInstance().m_inputMessagesMutex.unlock();
+    return false;
+  }
+  *msg = Host::GetInstance().m_inputMessages.front();
+  Host::GetInstance().m_inputMessages.pop();
+  Host::GetInstance().m_inputMessagesMutex.unlock();
+  return true;
+}
+
 void Host::Run(void)
 {
   syslog(LOG_INFO, "Host started");
@@ -72,32 +93,27 @@ void Host::Run(void)
   // run thread with connections
   std::thread t(&Host::ConnectionWork, this);
 
-  while (m_isRunning.load())
-  {
-    if (!m_inputMessages.empty())
-    {
-      m_inputMessagesMutex.lock();
-      printf("%s\n", m_inputMessages.front().m_message);
-      m_inputMessages.pop();
-      m_inputMessagesMutex.unlock();
-    }
+  m_gui = new GUI("Host", GUISend, GUIGet, IsRunning);
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(2));
-  }
+  m_gui->Run();
 
+  delete m_gui;
+  Stop();
   t.join();
 }
 
 void Host::Stop()
 {
-  m_isRunning = false;
-  syslog(LOG_INFO, "Start terminating host");
+  if (m_isRunning.load())
+  {
+    m_isRunning = false;
+    syslog(LOG_INFO, "Start terminating host");
+  }
 }
 
 Host::~Host(void)
 {
 }
-
 
 bool Host::ConnectionPrepare(Connection **con, sem_t **sem_read, sem_t **sem_write)
 {
@@ -240,6 +256,7 @@ void Host::ConnectionWork()
   {
     printf("host pid = %i\n", getpid());
     auto lastTimeWeHadClient = std::chrono::high_resolution_clock::now();
+    m_gui->SetConnected(false);
     while (m_isRunning.load())
     {
       // if this happening for 5 minutes -> exit
@@ -263,7 +280,7 @@ void Host::ConnectionWork()
         continue;
 
       auto clock = std::chrono::high_resolution_clock::now();
-
+      m_gui->SetConnected(true);
       while (m_isRunning.load())
       {
         double minutes_passed =
@@ -289,6 +306,7 @@ void Host::ConnectionWork()
         std::this_thread::sleep_for(std::chrono::milliseconds(30)); // for client get semaphore
       }
       ConnectionClose(currentConnection, semaphoreRead, semaphoreWrite);
+      m_gui->SetConnected(false);
     }
 
     if (m_clientPid != -1)

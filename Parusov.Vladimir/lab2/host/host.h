@@ -28,8 +28,14 @@ private:
     static Host m_hostInstance;
     // atomic bool for terminating
     std::atomic<bool> m_isRunning = true;
+    GUI *m_gui = nullptr;
+
     // handler for signals
     static void SignalHandler(int signum, siginfo_t* info, void *ptr);
+
+    static void GUISend(Message msg);
+    static bool GUIGet(Message *msg);
+
     // Connection working function
     void ConnectionWork(void);
     bool ConnectionPrepare(Connection **con, sem_t **sem_read, sem_t **sem_write);
@@ -46,6 +52,8 @@ public:
     static Host &GetInstance(void) { return m_hostInstance; }
 
     void Run(void);
+
+    static bool IsRunning(void) { return GetInstance().m_isRunning.load(); }
 
     static pid_t GetClientPid(void) { return GetInstance().m_clientPid; }
 

@@ -14,7 +14,7 @@ Client Client::m_clientInstance;
 int main(int argc, char *argv[])
 {
   openlog("lab2_client", LOG_PID | LOG_NDELAY | LOG_PERROR, LOG_USER);
-  /*
+
   if (argc != 2)
   {
       syslog(LOG_ERR, "expected host pid as the only command argument");
@@ -33,8 +33,7 @@ int main(int argc, char *argv[])
       closelog();
       return 1;
   }
-  */
-  int pid = 9023;
+
   try
   {
     Client::GetInstance().Run(pid);
@@ -48,6 +47,26 @@ int main(int argc, char *argv[])
   return 0;
 }
 
+void Client::GUISend(Message msg)
+{
+  Client::GetInstance().m_outputMessagesMutex.lock();
+  Client::GetInstance().m_outputMessages.push(msg);
+  Client::GetInstance().m_outputMessagesMutex.unlock();
+}
+
+bool Client::GUIGet(Message *msg)
+{
+  Client::GetInstance().m_inputMessagesMutex.lock();
+  if (Client::GetInstance().m_inputMessages.empty())
+  {
+    Client::GetInstance().m_inputMessagesMutex.unlock();
+    return false;
+  }
+  *msg = Client::GetInstance().m_inputMessages.front();
+  Client::GetInstance().m_inputMessages.pop();
+  Client::GetInstance().m_inputMessagesMutex.unlock();
+  return true;
+}
 
 void Client::SignalHandler(int signum, siginfo_t *info, void *ptr)
 {
@@ -100,28 +119,20 @@ void Client::Run(pid_t hostPid)
   // run thread with connections
   std::thread t(&Client::ConnectionWork, this);
 
-  while (m_isRunning.load())
-  {
-    if (m_isHostReady.load())
-    {
-      // simple work with messages
-      Message msg = {0};
-      scanf("%s", msg.m_message);
-
-      m_outputMessagesMutex.lock();
-      m_outputMessages.push(msg);
-      m_outputMessagesMutex.unlock();
-    }
-    std::this_thread::sleep_for(std::chrono::milliseconds(2));
-  }
-
+  m_gui = new GUI("Client", GUISend, GUIGet, IsRunning);
+  m_gui->Run();
+  delete m_gui;
+  Stop();
   t.join();
 }
 
 void Client::Stop()
 {
-  m_isRunning = false;
-  syslog(LOG_INFO, "Start terminating client");
+  if (m_isRunning)
+  {
+    m_isRunning = false;
+    syslog(LOG_INFO, "Start terminating client");
+  }
 }
 
 Client::~Client(void)
@@ -260,6 +271,7 @@ void Client::ConnectionWork(void)
   {
     auto clock = std::chrono::high_resolution_clock::now();
 
+    m_gui->SetConnected(false);
     while (!m_isHostReady.load())
     {
       double second = std::chrono::duration_cast<std::chrono::seconds>(
@@ -280,7 +292,7 @@ void Client::ConnectionWork(void)
     sem_t *semaphoreWrite, *semaphoreRead;
     if (!ConnectionPrepare(&currentConnection, &semaphoreRead, &semaphoreWrite))
       return;
-
+    m_gui->SetConnected(true);
     // while m_isRunning
     while (m_isRunning.load())
     {
