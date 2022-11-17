@@ -67,12 +67,12 @@ Host::Host(void)
 
 void Host::GUISend(Message msg)
 {
-  m_outputMessages.Push(msg);
+  Host::GetInstance().m_outputMessages.Push(msg);
 }
 
 bool Host::GUIGet(Message *msg)
 {
-  return m_inputMessages.GetAndRemove(msg);
+  return Host::GetInstance().m_inputMessages.GetAndRemove(msg);
 }
 
 void Host::Run(void)

@@ -50,12 +50,12 @@ int main(int argc, char *argv[])
 
 void Client::GUISend(Message msg)
 {
-  m_outputMessages.Push(msg);
+  Client::GetInstance().m_outputMessages.Push(msg);
 }
 
 bool Client::GUIGet(Message *msg)
 {
-  return m_inputMessages.GetAndRemove(msg);
+  return Client::GetInstance().m_inputMessages.GetAndRemove(msg);
 }
 
 void Client::SignalHandler(int signum, siginfo_t *info, void *ptr)
