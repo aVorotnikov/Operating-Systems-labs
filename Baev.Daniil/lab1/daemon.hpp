@@ -2,8 +2,8 @@
  * @file daemon.h
  * @author Baev Daniil (baev.daniil.2002@gmail.com)
  * @brief 
- * @version 0.1
- * @date 2022-10-31
+ * @version 0.2
+ * @date 2022-11-17
  * 
  * @copyright Copyright (c) 2022
  */
@@ -106,6 +106,8 @@ private:
      */
     std::vector<Data> data;
 
+    
+
     /**
      * @brief Construct a new Daemon object
     */
@@ -126,5 +128,5 @@ private:
     /**
      * @brief Transform process into daemon 
      */
-    void makeDaemon(void);
+    void daemonize(void);
 };

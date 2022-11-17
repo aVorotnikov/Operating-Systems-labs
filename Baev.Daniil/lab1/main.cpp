@@ -2,8 +2,8 @@
  * @file main.cpp
  * @author Baev Daniil (baev.daniil.2002@gmail.com)
  * @brief 
- * @version 0.1
- * @date 2022-10-31
+ * @version 0.2
+ * @date 2022-11-17
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -17,7 +17,7 @@
  * 
  * @param argc 
  * @param argv 
- * @return int
+ * @return int exit code
  */
 int main(int argc, char** argv) {
     if (argc != 2) {
