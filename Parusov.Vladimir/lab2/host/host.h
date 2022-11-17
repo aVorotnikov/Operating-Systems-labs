@@ -11,16 +11,15 @@
 #include <bits/types/siginfo_t.h>
 #include "../gui/gui.h"
 #include "../connections/connection.h"
+#include "../safe_queue.h"
 
 class Host {
 private:
     // queue of input messages
-    std::queue<Message> m_inputMessages;
-    std::mutex m_inputMessagesMutex;
+    SafeQueue<Message> m_inputMessages;
 
-    // queue of input messages
-    std::queue<Message> m_outputMessages;
-    std::mutex m_outputMessagesMutex;
+    // queue of output messages
+    SafeQueue<Message> m_outputMessages;
 
     // client pid
     std::atomic<pid_t> m_clientPid = -1;
@@ -41,7 +40,7 @@ private:
     bool ConnectionPrepare(Connection **con, sem_t **sem_read, sem_t **sem_write);
     bool ConnectionGetMessages(Connection *con, sem_t *sem_read, sem_t *sem_write);
     bool ConnectionSendMessages(Connection *con, sem_t *sem_read, sem_t *sem_write);
-    bool ConnectionClose(Connection *con, sem_t *sem_read, sem_t *sem_write);
+    void ConnectionClose(Connection *con, sem_t *sem_read, sem_t *sem_write);
     // Private constructor
     Host(void);
     // Blocked constructors

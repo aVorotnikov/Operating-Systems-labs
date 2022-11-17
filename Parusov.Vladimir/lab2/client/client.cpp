@@ -1,5 +1,4 @@
 #include <sys/syslog.h>
-#include <iostream>
 #include <thread>
 #include <algorithm>
 #include <csignal>
@@ -40,7 +39,9 @@ int main(int argc, char *argv[])
   }
   catch (std::exception &e)
   {
-    syslog(LOG_ERR, "An error %s", e.what());
+    syslog(LOG_ERR, "An error %s", e.what());	
+	closelog();
+	return 1;
   }
 
   closelog();
@@ -49,23 +50,12 @@ int main(int argc, char *argv[])
 
 void Client::GUISend(Message msg)
 {
-  Client::GetInstance().m_outputMessagesMutex.lock();
-  Client::GetInstance().m_outputMessages.push(msg);
-  Client::GetInstance().m_outputMessagesMutex.unlock();
+  m_outputMessages.Push(msg);
 }
 
 bool Client::GUIGet(Message *msg)
 {
-  Client::GetInstance().m_inputMessagesMutex.lock();
-  if (Client::GetInstance().m_inputMessages.empty())
-  {
-    Client::GetInstance().m_inputMessagesMutex.unlock();
-    return false;
-  }
-  *msg = Client::GetInstance().m_inputMessages.front();
-  Client::GetInstance().m_inputMessages.pop();
-  Client::GetInstance().m_inputMessagesMutex.unlock();
-  return true;
+  return m_inputMessages.GetAndRemove(msg);
 }
 
 void Client::SignalHandler(int signum, siginfo_t *info, void *ptr)
@@ -117,13 +107,13 @@ void Client::Run(pid_t hostPid)
   syslog(LOG_ERR, "Signal sent");
 
   // run thread with connections
-  std::thread t(&Client::ConnectionWork, this);
+  std::thread connectionThread(&Client::ConnectionWork, this);
 
   m_gui = new GUI("Client", GUISend, GUIGet, IsRunning);
   m_gui->Run();
   delete m_gui;
   Stop();
-  t.join();
+  connectionThread.join();
 }
 
 void Client::Stop()
@@ -204,65 +194,23 @@ bool Client::ConnectionGetMessages(Connection *con, sem_t *sem_read, sem_t *sem_
     }
   }
 
-  m_inputMessagesMutex.lock();
-  {
-    uint32_t amount = 0;
-    con->Get(&amount, sizeof(uint32_t));
-    for (uint32_t i = 0; i < amount; i++)
-    {
-      Message msg = {0};
-      try
-      {
-        con->Get(&msg, sizeof(Message));
-      }
-      catch (const char *err)
-      {
-        m_inputMessagesMutex.unlock();
-        syslog(LOG_ERR, "%s", err);
-        return false;
-      }
-      syslog(LOG_INFO, "Recieved %s\n", msg.m_message);
-      m_inputMessages.push(msg);
-    }
-  }
-  m_inputMessagesMutex.unlock();
+  m_inputMessages.GetFromConnection(con);
   return true;
 }
 
 bool Client::ConnectionSendMessages(Connection *con, sem_t *sem_read, sem_t *sem_write)
 {
-  m_outputMessagesMutex.lock();
-  uint32_t amount = m_outputMessages.size();
-  if (amount > 0)
-    syslog(LOG_INFO, "Start sending messages\n");
-  con->Send(&amount, sizeof(uint32_t));
-  while (!m_outputMessages.empty())
-  {
-    syslog(LOG_INFO, "Sended %s\n", m_outputMessages.front().m_message);
-    try
-    {
-      con->Send(&m_outputMessages.front(), sizeof(Message));
-    }
-    catch (const char *err)
-    {
-      m_outputMessagesMutex.unlock();
-      syslog(LOG_ERR, "%s", err);
-      return false;
-    }
-    m_outputMessages.pop();
-  }
-  m_outputMessagesMutex.unlock();
+  bool res = m_outputMessages.SendToConnection(con);
   sem_post(sem_write);
-  return true;
+  return res;
 }
 
-bool Client::ConnectionClose(Connection *con, sem_t *sem_read, sem_t *sem_write)
+void Client::ConnectionClose(Connection *con, sem_t *sem_read, sem_t *sem_write)
 {
   con->Close();
   sem_close(sem_write);
   sem_close(sem_read);
   delete con;
-  return true;
 }
 
 void Client::ConnectionWork(void)

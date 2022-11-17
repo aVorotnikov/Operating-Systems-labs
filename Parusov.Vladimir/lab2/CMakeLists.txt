@@ -18,8 +18,8 @@ find_package (Threads)
 find_library (LIBRT rt)
 
 file(GLOB CONNECTIONS connections/conn_*.h)
-file(GLOB HOST host/*.cpp host/*.h)
-file(GLOB CLIENT client/*.cpp client/*.h)
+file(GLOB HOST safe_queue.h host/*.cpp host/*.h)
+file(GLOB CLIENT safe_queue.h client/*.cpp client/*.h)
 file(GLOB GUI gui/*.ui gui/*.cpp gui/*.h )
 
 foreach(PATH_TO_CON ${CONNECTIONS})
