@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++   -g -o CMakeFiles/host.dir/main.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/main.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/main.cpp"
+}
+]

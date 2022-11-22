@@ -1,0 +1,22 @@
+#pragma once
+
+#include <sys/shm.h>
+#include "abstr_conn.h"
+
+class SegConnection : public AbstractConnection {
+private:
+    uint SEGMENT_SIZE = 4096;
+
+    bool isHost;
+    int segId;
+
+public:
+    SegConnection(pid_t pid, bool isHost) : isHost(isHost) {/*this->mqFilename = "/tmp/mq_" + std::to_string(pid);*/};
+
+    void connOpen(size_t id, bool create) override;
+    void connRead(void* buf, size_t count) override;
+    void connWrite(void* buf, size_t count) override;
+    void connClose() override;
+
+    ~SegConnection() = default;
+};
