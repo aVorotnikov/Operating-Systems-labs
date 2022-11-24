@@ -1,0 +1,2 @@
+/home/dmitry/Documents/daemon/dir1 /home/dmitry/Documents/daemon/dir2 5
+/home/dmitry/Documents/daemon/dir3 /home/dmitry/Documents/daemon/dir4 5
