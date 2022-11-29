@@ -1,12 +1,13 @@
 #pragma once
 
+#include <memory>
 #include <string>
 
 class AbstractConnection {
-private:
+protected:
     std::string TYPE_CODE;
 public:
-    static AbstractConnection * createConnection(pid_t pid, bool isHost);
+    static std::unique_ptr<AbstractConnection> createConnection(pid_t pid, bool isHost);
     
     virtual void connOpen(size_t id, bool create) = 0;
     virtual void connRead(void* buf, size_t count) = 0;

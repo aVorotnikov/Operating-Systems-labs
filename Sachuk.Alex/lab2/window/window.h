@@ -6,7 +6,7 @@
 
 using read_callback_t = void(*)(Message msg);
 using write_callback_t = void(*)(Message *msg);
-using controll_callback_t = bool(*)(Message msg);
+using controll_callback_t = bool(*)();
 
 class Window {
 private:

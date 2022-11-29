@@ -5,15 +5,16 @@
 
 class SegConnection : public AbstractConnection {
 private:
-    uint SEGMENT_SIZE = 4096;
+    const std::string SEG_CODE = "SEG_CONN";
+    const uint SIZE = sizeof(int);
 
     bool isHost;
     int segId;
-
+    void* seg = nullptr;
 public:
-    SegConnection(pid_t pid, bool isHost) : isHost(isHost) {/*this->mqFilename = "/tmp/mq_" + std::to_string(pid);*/};
+    SegConnection(pid_t pid, bool isHost) : isHost(isHost) { TYPE_CODE = SEG_CODE; };
 
-    void connOpen(size_t id, bool create) override;
+    void connOpen(size_t pid, bool isHost) override;
     void connRead(void* buf, size_t count) override;
     void connWrite(void* buf, size_t count) override;
     void connClose() override;

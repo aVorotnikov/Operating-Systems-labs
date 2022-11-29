@@ -4,12 +4,12 @@
 
 #include "conn_fifo.h"
 
-AbstractConnection * AbstractConnection::createConnection(pid_t pid, bool isHost) {
-    return new FifoConnection(pid, isHost);
+std::unique_ptr<AbstractConnection> AbstractConnection::createConnection(pid_t pid, bool isHost) {
+    return std::make_unique<FifoConnection>(pid, isHost);
 }
 
 
-void FifoConnection::connOpen(size_t id, bool create) {
+void FifoConnection::connOpen(size_t id, bool isHost) {
     // Create Fifo file
     if (isHost) {
         unlink(fifoFilename.c_str());
@@ -19,8 +19,12 @@ void FifoConnection::connOpen(size_t id, bool create) {
 
     // Open Fifo file
     fileId =::open(fifoFilename.c_str(), O_RDWR);
-    if (fileId == -1)
+    if (fileId == -1) {
+        if (isHost)
+            unlink(fifoFilename.c_str());
+
         throw ("Open error");
+    }
 }
 
 void FifoConnection::connRead(void* buf, size_t count) {
@@ -36,7 +40,7 @@ void FifoConnection::connWrite(void* buf, size_t count) {
 void FifoConnection::connClose() {
     close(fileId);
 
-    // Create Fifo file
+    // Close Fifo file
     if (isHost)
         unlink(fifoFilename.c_str());
 }

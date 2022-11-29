@@ -6,17 +6,15 @@
 #include <semaphore.h>   
 #include <bits/types/siginfo_t.h>
 
-#include "../client/client.h"
+#include "../host/host.h"
 #include "../window/window.h"
 #include "../connections/abstr_conn.h"
 #include "../messages/messages.h"
 
-
-// 'Host' managment class: singleton
-class Host {
+class Client{
 private:
     // Instance
-    static Host hostInstance;
+    static Client cientInstance;
     std::atomic<bool> isRunning = true;
     
     // connetcions
@@ -45,13 +43,14 @@ private:
     static void winWrite(Message msg);
 
     // constructions 
-    Host();
-    Host(const Host&) = delete;
-    Host(Host&&) = delete;
+    Client();
+    Client(const Client&) = delete;
+    Client(Host&&) = delete;
 public:
-    static Host& getInstance();
+    static Client& getInstance();
+    static bool init(pid_t hostPid);
     void run();
     void stop();
 
-    ~Host();
+    ~Client();
 };
