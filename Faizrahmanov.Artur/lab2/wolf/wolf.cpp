@@ -43,8 +43,6 @@ Wolf::~Wolf()
     {
         sem_unlink(Configuration::CLIENT_SEMAPHORE_NAME.c_str());
     }
-
-    delete conn;
 }
 
 bool Wolf::init(sendMessageToGuiCallback sendToGui)
@@ -181,27 +179,13 @@ bool Wolf::getGoatMessage(Message &msg)
 
 GOAT_STATE Wolf::updateGoatState(const size_t &wolfNum, const Message &goatMessage)
 {
-    size_t div = std::abs((int)wolfNum - (int)goatMessage.thrownNumber);
+    size_t div = std::abs(static_cast<int>(wolfNum) - static_cast<int>(goatMessage.thrownNumber));
     switch (goatMessage.goatState)
     {
     case GOAT_STATE::ALIVE:
-        if (div > Configuration::Goat::ALIVE_GOAT_VALIDATION)
-        {
-            return GOAT_STATE::ALMOST_DEAD;
-        }
-        else
-        {
-            return GOAT_STATE::ALIVE;
-        }
+        return div > Configuration::Goat::ALIVE_GOAT_VALIDATION ? GOAT_STATE::ALMOST_DEAD : GOAT_STATE::ALIVE;
     case GOAT_STATE::ALMOST_DEAD:
-        if (div > Configuration::Goat::ALMOST_DEAD_GOAT_VALIDATION)
-        {
-            return GOAT_STATE::DEAD;
-        }
-        else
-        {
-            return GOAT_STATE::ALIVE;
-        }
+        return div > Configuration::Goat::ALMOST_DEAD_GOAT_VALIDATION ? GOAT_STATE::DEAD : GOAT_STATE::ALIVE;
     case GOAT_STATE::DEAD:
         return GOAT_STATE::DEAD;
     }

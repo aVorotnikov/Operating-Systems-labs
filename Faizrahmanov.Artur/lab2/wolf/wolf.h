@@ -19,7 +19,7 @@ private:
     sem_t *semClient{};
     pid_t hostPid = 0;
     pid_t clientPid = 0;
-    Connection *conn;
+    std::unique_ptr<Connection> conn;
 
     std::atomic<Message> wolfMessage;
 

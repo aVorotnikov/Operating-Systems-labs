@@ -5,12 +5,12 @@
 
 #include <sys/un.h>
 
-Connection *Connection::create()
+std::unique_ptr<Connection> Connection::create()
 {
-    return new MessageQueue();
+    return std::make_unique<MessageQueue>();
 }
 
-bool MessageQueue::open(const pid_t &pid, const bool &isHost)
+bool MessageQueue::open(pid_t pid, bool isHost)
 {
     this->isHost = isHost;
     std::string name = std::string(MQ_ROUTE + std::to_string(pid));
@@ -59,13 +59,10 @@ bool MessageQueue::write(const Message &msg)
 
 bool MessageQueue::close()
 {
-    if (isHost)
+    if (isHost && mq_close(descriptor) < 0)
     {
-        if (mq_close(descriptor) < 0)
-        {
-            syslog(LOG_ERR, "ERROR: failed to close connection");
-            return false;
-        }
+        syslog(LOG_ERR, "ERROR: failed to close connection");
+        return false;
     }
     return true;
 }

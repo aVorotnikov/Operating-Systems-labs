@@ -7,14 +7,15 @@
 #include <unistd.h>
 #include <sys/un.h>
 
-Connection *Connection::create()
+std::unique_ptr<Connection> Connection::create()
 {
-    return new Fifo();
+    return std::make_unique<Fifo>();
 }
 
-bool Fifo::open(const pid_t &pid, const bool &isHost)
+bool Fifo::open(pid_t pid, bool isHost)
 {
     name = std::string(FIFO_ROUTE + std::to_string(pid));
+    this->isHost = isHost;
     if (isHost)
     {
         if (mkfifo(name.c_str(), S_IRWXU | S_IRWXG | S_IRWXO) < 0)

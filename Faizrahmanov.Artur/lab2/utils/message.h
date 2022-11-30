@@ -2,7 +2,7 @@
 
 enum GOAT_STATE
 {
-    ALIVE,
+    ALIVE = 0,
     DEAD,
     ALMOST_DEAD,
 };

@@ -10,7 +10,7 @@ private:
     pid_t hostPid = 0;
     sem_t *hostSemaphore;
     sem_t *clientSemaphore;
-    Connection *conn;
+    std::unique_ptr<Connection> conn;
 
 public:
     static Goat &getInstance();

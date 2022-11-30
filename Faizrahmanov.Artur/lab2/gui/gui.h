@@ -51,7 +51,7 @@ private:
 public:
     static Gui &getInstance();
 
-    void init(isRunningCallback isRunning, stopRunningCallback stopRunning, sendMessageCallback sendMessage, QObject *parent = nullptr);
+    void init(isRunningCallback isRunning, stopRunningCallback stopRunning, sendMessageCallback sendMessage);
 
     int run();
 

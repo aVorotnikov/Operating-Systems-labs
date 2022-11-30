@@ -13,7 +13,7 @@ Gui &Gui::getInstance()
     return instance;
 }
 
-void Gui::init(isRunningCallback isRunning, stopRunningCallback stopRunning, sendMessageCallback sendMessage, QObject *parent)
+void Gui::init(isRunningCallback isRunning, stopRunningCallback stopRunning, sendMessageCallback sendMessage)
 {
     this->isRunning = isRunning;
     this->stopRunning = stopRunning;
@@ -39,11 +39,11 @@ int Gui::run()
             QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
 
-    engine.load(url);
-
     engine.rootContext()->setContextProperty(QStringLiteral("MAX_WOLF_NUMBER"), QVariant::fromValue(Configuration::Wolf::MAX_NUMBER));
     engine.rootContext()->setContextProperty("gui", this);
     engine.rootContext()->setContextProperty("gameHistory", &gameHistory);
+
+    engine.load(url);
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [=]()

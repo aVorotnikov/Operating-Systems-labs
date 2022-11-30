@@ -21,7 +21,7 @@ public:
     Socket() = default;
     ~Socket() = default;
 
-    bool open(const pid_t &pid, const bool &isHost) final;
+    bool open(pid_t pid, bool isHost) final;
     bool read(Message &msg) const final;
     bool write(const Message &msg) final;
     bool close() final;

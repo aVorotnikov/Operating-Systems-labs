@@ -16,7 +16,7 @@ int main()
     else
     {
         std::cout << "ERROR: can't initialize wolf" << std::endl;
-        syslog(LOG_INFO, "ERROR: failed to initialize host");
+        syslog(LOG_ERR, "ERROR: failed to initialize host");
     }
 
     syslog(LOG_INFO, "INFO: game over");

@@ -7,12 +7,12 @@
 #include <unistd.h>
 #include <iostream>
 
-Connection *Connection::create()
+std::unique_ptr<Connection> Connection::create()
 {
-    return new Socket();
+    return std::make_unique<Socket>();
 }
 
-bool Socket::open(const pid_t &pid, const bool &isHost)
+bool Socket::open(pid_t pid, bool isHost)
 {
     struct sockaddr_un addr;
     this->isHost = isHost;

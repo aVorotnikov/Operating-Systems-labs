@@ -29,5 +29,5 @@ foreach(CONN mq fifo sock)
             ${CONNECTION}/conn.h ${CONNECTION}/conn_${CONN}.cpp ${CONNECTION}/conn_${CONN}.h
             gui/gui.cpp gui/gui.h
             gui/qml.qrc)
-    target_link_libraries(host_${CONN} PUBLIC rt pthread Qt::Core Qt::Quick)
+    target_link_libraries(host_${CONN} PUBLIC rt pthread Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
 endforeach(CONN mq fifo sock)
