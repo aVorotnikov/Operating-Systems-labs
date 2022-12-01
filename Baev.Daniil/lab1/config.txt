@@ -1,0 +1,20 @@
+# list of directory and file in format: <folder> <ignfile>
+# delete all in the directory if there is not ignfile in the directory
+# do nothing another
+
+interval: 10
+
+#ignore
+test_folder_1 1.txt
+#delete
+test_folder_2  2.txt
+#ignore
+"test folder 3"    "test file"
+#ignore
+test_folder4 "5.txt"
+
+# incorrect strings - will be ignored:
+
+jjjjjjj
+test_folder 1.txt ffhejd
+"vhcdv"hcdbjchjbdhj"

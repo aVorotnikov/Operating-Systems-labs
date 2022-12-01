@@ -1,0 +1,3 @@
+input_dir test_dir/logs
+output_dir test_dir/out
+time 10

@@ -1,0 +1,3 @@
+/home/alex/Desktop/dir1
+/home/alex/Desktop/dir2
+2
