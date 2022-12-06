@@ -93,23 +93,21 @@ bool Host::GetNum(int *num) {
         return false;
     }
 
-    try {
-        _conn->Read(num, sizeof(int));
+    if (_conn->Read(num, sizeof(int))) {
         return true;
     }
-    catch (const char *e) {
+    else {
         syslog(LOG_ERR, "Connection reading error");
         return false;
     }
 }
 
 bool Host::SendState(bool st) {
-    try {
-        _conn->Write(&st, sizeof(bool));
+    if (_conn->Write(&st, sizeof(bool))) {
         sem_post(_semWrite);
         return true;
     }
-    catch (const char *e) {
+    else {
         syslog(LOG_ERR, "Connection writing error");
         return false;
     }
@@ -216,7 +214,7 @@ void Host::Work(void) {
             else
                 gst.goatSt = DEAD;
 
-            _output.Push(gst);
+            _output.Set(gst);
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
         if (_clientPid.load() != -1)

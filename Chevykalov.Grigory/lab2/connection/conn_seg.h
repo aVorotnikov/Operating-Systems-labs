@@ -7,8 +7,8 @@ class seg : public Connection {
 public:
     seg(pid_t clientPid, bool isHost);
 
-    void Read(void *buf, size_t count) override;
-    void Write(const void *buf, size_t count) override;
+    bool Read(void *buf, size_t count) override;
+    bool Write(const void *buf, size_t count) override;
 
     ~seg(void);
 

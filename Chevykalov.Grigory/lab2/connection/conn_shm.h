@@ -9,8 +9,8 @@ class shm : public Connection {
 public:
     shm(pid_t clientPid, bool isHost);
 
-    void Read(void *buf, size_t count) override;
-    void Write(const void *buf, size_t count) override;
+    bool Read(void *buf, size_t count) override;
+    bool Write(const void *buf, size_t count) override;
 
     ~shm(void);
 

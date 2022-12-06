@@ -12,11 +12,7 @@ std::unique_ptr<Connection> Connection::Create(pid_t clientPid, bool isHost) {
 seg::seg(pid_t clientPid, bool isHost) {
     _isHost = isHost;
 
-    int f;
-    if (_isHost)
-        f = IPC_CREAT | O_EXCL | 0666;
-    else
-        f = 0666;
+    int f = _isHost ? IPC_CREAT | O_EXCL | 0666 : 0666;
 
     _shmid = shmget(clientPid, _size, f);
     if (_shmid == -1)
@@ -30,16 +26,18 @@ seg::seg(pid_t clientPid, bool isHost) {
     }
 }
 
-void seg::Read(void* buf, size_t count) {
+bool seg::Read(void* buf, size_t count) {
     if (count > _size)
-        throw "segment reading error";
+        return false;
     memcpy(buf, _segptr, count);
+    return true;
 }
 
-void seg::Write(const void* buf, size_t count) {
+bool seg::Write(const void* buf, size_t count) {
     if (count > _size)
-        throw "segment writing error";
+        return false;
     memcpy(_segptr, buf, count);
+    return true;
 }
 
 seg::~seg(void) {

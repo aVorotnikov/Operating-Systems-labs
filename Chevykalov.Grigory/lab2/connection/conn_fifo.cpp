@@ -24,14 +24,16 @@ fifo::fifo(pid_t clientPid, bool isHost) {
     }
 }
 
-void fifo::Read(void* buf, size_t count) {
+bool fifo::Read(void* buf, size_t count) {
     if (read(_fileDescr, buf, count) < 0)
-        throw "fifo reading error";
+        return false;
+    return true;
 }
 
-void fifo::Write(const void* buf, size_t count) {
+bool fifo::Write(const void* buf, size_t count) {
     if (write(_fileDescr, buf, count) < 0)
-        throw "fifo writing error";
+        return false;
+    return true;
 }
 
 fifo::~fifo(void) {

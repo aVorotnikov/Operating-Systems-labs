@@ -12,37 +12,39 @@
 #include "../gui/gui.h"
 #include "../connection/connection.h"
 
-#define DEAD "dead"
-#define ALIVE "alive"
+constexpr char DEAD[] = "dead";
+constexpr char ALIVE[] = "alive";
 
 class Host {
 private:
     template <typename T>
-    class Vec {
+    class SingleCont {
     private:
-        std::vector<T> _v;
+        T _v;
+        int _s = 0;
         mutable std::mutex _m;
     public:
-	    void Push(const T &val) {
+	    void Set(const T &val) {
 		    _m.lock();
-            _v.push_back(val);
+            _v = val;
+            _s = 1;
 		    _m.unlock();
 	    }
 	
 	    bool Get(T *data) {
 		    _m.lock();
-		    if (_v.empty()) {
+		    if (_s == 0) {
 			    _m.unlock();
 			    return false;
 		    }
-		    *data = _v.back();
-		    _v.pop_back();
+		    *data = _v;
+		    _s = 0;
 		    _m.unlock();
 		    return true;
 	    }
 
         int len(void) {
-            return _v.size();
+            return _s;
         }
     };
 
@@ -53,8 +55,8 @@ private:
     const int _aliveInter = 70;
     const int _deadInter = 20;
 
-    Vec<GState> _output;
-    Vec<int> _input;
+    SingleCont<GState> _output;
+    SingleCont<int> _input;
 
     std::atomic<pid_t> _clientPid = -1;
     std::atomic<bool> _isTerminated = false;
@@ -67,7 +69,7 @@ private:
     static void SignalHandler(int signum, siginfo_t *info, void *ptr);
 
     static void GUISend(int num) {
-        Host::GetInstance()._input.Push(num);
+        Host::GetInstance()._input.Set(num);
     }
     static bool GUIGet(GState *st) {
         return Host::GetInstance()._output.Get(st);

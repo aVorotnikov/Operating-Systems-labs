@@ -93,11 +93,10 @@ bool Client::GetState(void) {
         return false;
     }
 
-    try {
-        _conn->Read(&_isAlive, sizeof(bool));
+    if (_conn->Read(&_isAlive, sizeof(bool))) {
         return true;
     }
-    catch (const char *e) {
+    else {
         syslog(LOG_ERR, "Connection reading error");
         return false;
     }
@@ -108,12 +107,11 @@ bool Client::SendNum(void) {
     int k = _isAlive ? _maxNum : _maxNum / _divider;
     int num = 1 + rand() % k;
 
-    try {
-        _conn->Write(&num, sizeof(int));
+    if (_conn->Write(&num, sizeof(int))) {
         sem_post(_semWrite);
         return true;
     }
-    catch (const char *e) {
+    else {
         syslog(LOG_ERR, "Connection writing error");
         return false;
     }

@@ -14,11 +14,7 @@ shm::shm(pid_t clientPid, bool isHost) {
     _isHost = isHost;
     _shmName = "shm_" + std::to_string(clientPid);
 
-    int f;
-    if (_isHost)
-        f = O_CREAT | O_RDWR | O_EXCL;
-    else
-        f = O_RDWR;
+    int f = _isHost ? O_CREAT | O_RDWR | O_EXCL : O_RDWR;
     
     _fileDescr = shm_open(_shmName.c_str(), f, 0666);
     if (_fileDescr == -1)
@@ -35,16 +31,18 @@ shm::shm(pid_t clientPid, bool isHost) {
     }
 }
 
-void shm::Read(void* buf, size_t count) {
+bool shm::Read(void* buf, size_t count) {
     if (count > _size)
-        throw "segment reading error";
+        return false;
     memcpy(buf, _bufptr, count);
+    return true;
 }
 
-void shm::Write(const void* buf, size_t count) {
+bool shm::Write(const void* buf, size_t count) {
     if (count > _size)
-        throw "segment writing error";
+        return false;
     memcpy(_bufptr, buf, count);
+    return true;
 }
 
 shm::~shm(void) {
