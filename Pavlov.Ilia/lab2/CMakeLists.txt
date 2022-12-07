@@ -40,6 +40,6 @@ foreach(CONN_FILE ${CONN_FILES})
 
     add_executable(client_${CONN_TYPE} ${CLIENT_SOURCES} src/connections/conn.h
         src/connections/conn_${CONN_TYPE}.cpp src/connections/conn_${CONN_TYPE}.h)
-    target_link_libraries(client_${CONN_TYPE} PUBLIC pthread)
+    target_link_libraries(client_${CONN_TYPE} PUBLIC pthread rt)
 
 endforeach()
