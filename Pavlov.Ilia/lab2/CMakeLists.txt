@@ -12,6 +12,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_compile_options(-Wall -Werror)
 
+find_library(LIBRT rt)
+find_package(Threads)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 set(HOST_SOURCES
@@ -34,9 +36,10 @@ foreach(CONN_FILE ${CONN_FILES})
 
     add_executable(host_${CONN_TYPE} ${HOST_SOURCES} src/connections/conn.h
         src/connections/conn_${CONN_TYPE}.cpp src/connections/conn_${CONN_TYPE}.h)
-    target_link_libraries(host_${CONN_TYPE} PUBLIC Qt5::Widgets)
+    target_link_libraries(host_${CONN_TYPE} PUBLIC pthread rt Qt5::Widgets)
 
     add_executable(client_${CONN_TYPE} ${CLIENT_SOURCES} src/connections/conn.h
         src/connections/conn_${CONN_TYPE}.cpp src/connections/conn_${CONN_TYPE}.h)
+    target_link_libraries(client_${CONN_TYPE} PUBLIC pthread)
 
 endforeach()
