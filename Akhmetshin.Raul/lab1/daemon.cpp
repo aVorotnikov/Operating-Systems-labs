@@ -30,7 +30,7 @@ static void HandleSignal(int signal)
 
 void DeleteFiles(const std::string& directory, const std::string& triggerFile)
 {
-    if (fs::exists(directory + '/' + triggerFile)) {
+    if (!fs::exists(directory + '/' + triggerFile)) {
         //syslog(LOG_INFO, "Find trigger file");
         for (auto &file: fs::directory_iterator(directory)) {
             if (file.path().filename().string() != triggerFile) {
