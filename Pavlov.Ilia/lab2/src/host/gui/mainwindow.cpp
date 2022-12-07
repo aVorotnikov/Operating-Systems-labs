@@ -14,7 +14,7 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::WriteLog(std::string msg) {
+void MainWindow::WriteLog(const std::string& msg) {
     ui->gameLogText->append(msg.c_str());
 }
 
@@ -22,8 +22,8 @@ void MainWindow::SetPid(pid_t pid) {
     ui->hostPidText->setText(std::to_string(pid).c_str());
 }
 
-static int _random(int a, int b) {
-  return int((1.0*rand() + 1) / (1.0*RAND_MAX + 1) * (b - a) + a);
+static int _random(int minNum, int maxNum) {
+  return int((1.0*rand() + 1) / (1.0*RAND_MAX + 1) * (maxNum - minNum) + minNum);
 }
 
 int MainWindow::GetNumber() {

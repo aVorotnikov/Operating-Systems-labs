@@ -13,7 +13,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
-    void WriteLog(std::string msg);
+    void WriteLog(const std::string& msg);
     int GetNumber();
     void SetPid(pid_t pid);
     ~MainWindow();

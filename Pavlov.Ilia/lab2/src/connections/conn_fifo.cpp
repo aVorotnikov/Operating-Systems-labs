@@ -4,8 +4,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-Conn* Conn::GetConn(pid_t hostPid, Type type) {
-    return new ConnFifo(hostPid, type);
+std::unique_ptr<Conn> Conn::GetConn(pid_t hostPid, Type type) {
+    return std::make_unique<ConnFifo>(hostPid, type);
 }
 
 ConnFifo::ConnFifo(pid_t hostPid, Type type) : hostPid(hostPid), type(type) {

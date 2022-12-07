@@ -3,8 +3,8 @@
 #include <string>
 #include <unistd.h>
 
-Conn* Conn::GetConn(pid_t hostPid, Type type) {
-    return new ConnSock(hostPid, type);
+std::unique_ptr<Conn> Conn::GetConn(pid_t hostPid, Type type) {
+    return std::make_unique<ConnSock>(hostPid, type);
 }
 
 ConnSock::ConnSock(pid_t hostPid, Type type) : hostPid(hostPid), type(type) {
@@ -27,24 +27,11 @@ ConnSock::ConnSock(pid_t hostPid, Type type) : hostPid(hostPid), type(type) {
 
 bool ConnSock::Open() {
     if (type == Type::HOST) {
-        /*
-        timeval t;
-        t.tv_sec = 5;
-        t.tv_usec = 0;
-        fd_set sockr, sockw;
-        FD_ZERO(&sockr);
-        FD_ZERO(&sockw);
-        FD_SET(sockfd, &sockr);
-        FD_SET(sockfd, &sockw);
-        listen(sockfd, 1);
-        int rc = select(sockfd+1, &sockr, &sockw, nullptr, &t);
-        if (rc == -1)
-            return false;
-        rc = accept(sockfd, (struct sockaddr *)&addr, &addrLen);
-        if (rc == -1)
-            return false;*/
         listen(sockfd, 1);
         int rc = accept(sockfd, (struct sockaddr *)&addr, &addrLen);
+        if (rc == -1) {
+            return false;
+        }
         sockfd = rc;
     }
     else

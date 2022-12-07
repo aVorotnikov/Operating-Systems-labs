@@ -1,7 +1,7 @@
 #include "conn_mq.h"
 
-Conn* Conn::GetConn(pid_t hostPid, Type type) {
-    return new ConnMq(hostPid, type);
+std::unique_ptr<Conn> Conn::GetConn(pid_t hostPid, Type type) {
+    return std::make_unique<ConnMq>(hostPid, type);
 }
 
 ConnMq::ConnMq(pid_t hostPid, Type type) : hostPid(hostPid), type(type){

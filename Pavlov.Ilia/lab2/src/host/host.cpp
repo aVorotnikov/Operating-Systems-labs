@@ -86,20 +86,14 @@ void Host::StopClient() {
 }
 
 void Host::StartGame() {
-    bool dead_first_round = false;
-
-    while (true) {
+    bool deadPrevRound = false;
+    do {
+        deadPrevRound = clientState == State::DEAD;
         if (!StartRound()) {
             mw->WriteLog("Потеряно соединение. Игра окончена");
             Terminate(EXIT_FAILURE);
         }
-        if (!dead_first_round && clientState == State::DEAD)
-            dead_first_round = true;
-        else if (dead_first_round && clientState == State::DEAD)
-            break;
-        else
-            dead_first_round = false;
-    }
+    } while (!deadPrevRound || clientState != State::DEAD);
     mw->WriteLog("Game over");
     StopClient();
 }
