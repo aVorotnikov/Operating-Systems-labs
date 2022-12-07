@@ -1,0 +1,3 @@
+/home/dkozhevnikova/test/folder1
+/home/dkozhevnikova/test/folder2
+60
