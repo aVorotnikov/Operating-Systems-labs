@@ -1,0 +1,13 @@
+# interval between periods of daemon activity in seconds
+# affects how quickly changes in the list of events will be taken into account - other reminders
+# come at the specified time, regardless of this interval
+interval: 120
+# list of events to remind in the format: add_event <DD/MM/YYYY> <hh:mm:ss> [-flag] <text>
+# the flag can take one value from -h, -d, -w or be absent
+# each event on a separate line
+add_event 10/10/2022 19:30:00 -h simple text
+add_event 10/10/2022 20:30:20 simple text 2
+# incorrect strings - will be ignored:
+
+jjjjjjj
+add_event 10-10-2022 19:40:00 -w text
