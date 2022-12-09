@@ -1,5 +1,6 @@
 #pragma once
 #include "goat_info.h"
+#include <string>
 
 struct Message
 {
