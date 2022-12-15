@@ -12,11 +12,7 @@ Connection* Connection::createDefault(const std::string &name, bool isHost)
     return new Fifo(name, isHost);
 }
 
-Fifo::Fifo(const std::string &name, bool isHost)
-{
-    this->isHost = isHost;
-    this->name = PREFIX + name;
-}
+Fifo::Fifo(const std::string &name, bool isHost) : isHost(isHost), name(PREFIX + name) {}
 
 bool Fifo::open()
 {

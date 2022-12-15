@@ -2,13 +2,13 @@
 
 #include <sys/syslog.h>
 
-std::unordered_map<std::string, PipePair> pipeDict;
+std::unordered_map<std::string, PipePair> Pipe::pipeDict = std::unordered_map<std::string, PipePair>();
 
 Connection* Connection::createDefault(const std::string &name, bool isHost)
 {
     PipePair pipePair;
-    auto pipePairIterator = pipeDict.find(name);
-    if (pipePairIterator == pipeDict.end())
+    auto pipePairIterator = Pipe::pipeDict.find(name);
+    if (pipePairIterator == Pipe::pipeDict.end())
     {
         int tmp[2];
         if (pipe(tmp) < 0)
@@ -25,7 +25,7 @@ Connection* Connection::createDefault(const std::string &name, bool isHost)
         }
         pipePair.clientDesriptors.read = tmp[0];
         pipePair.clientDesriptors.write = tmp[1];
-        pipeDict[name] = pipePair;
+        Pipe::pipeDict[name] = pipePair;
     }
     else
     {
@@ -34,12 +34,7 @@ Connection* Connection::createDefault(const std::string &name, bool isHost)
     return new Pipe(name, isHost, pipePair);
 }
 
-Pipe::Pipe(const std::string &name, bool isHost, const PipePair &pipePair)
-{
-    this->isHost = isHost;
-    this->name = name;
-    this->pipePair = pipePair;
-}
+Pipe::Pipe(const std::string &name, bool isHost, const PipePair &pipePair) : name(name), isHost(isHost), pipePair(pipePair) {}
 
 bool Pipe::open()
 {

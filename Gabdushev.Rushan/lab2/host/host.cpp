@@ -68,7 +68,7 @@ int Host::run(int argc, char *argv[])
         std::cout << "ERROR: Expected clients count" << std::endl;
         return EXIT_FAILURE;
     }
-    int clientCount;
+    int clientCount = 0;
     try
     {
         clientCount = std::stoi(argv[1]);

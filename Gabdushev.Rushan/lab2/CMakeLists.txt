@@ -20,7 +20,11 @@ find_package (Threads)
 find_library (LIBRT rt)
 
 
-foreach(CONN pipe fifo sock)
+file(GLOB CONN_FILES connections/conn_*.h)
+foreach(CONN_FILE ${CONN_FILES})
+    get_filename_component(FILE_NAME ${CONN_FILE} NAME_WLE )
+    string(REGEX REPLACE "conn_" "" CONN ${FILE_NAME})
+
     add_executable(host_${CONN}
         host/host.h
         host/host.cpp
@@ -34,4 +38,4 @@ foreach(CONN pipe fifo sock)
         connections/conn_${CONN}.cpp connections/conn_${CONN}.h)
 
     target_link_libraries(host_${CONN} PUBLIC pthread rt Qt${QT_VERSION_MAJOR}::Widgets)
-endforeach(CONN pipe fifo sock)
+endforeach()
