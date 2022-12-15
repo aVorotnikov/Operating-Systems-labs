@@ -76,7 +76,7 @@ bool Client::openConnection(void) {
 }
 
 void Client::run(void){
-    syslog(LOG_INFO, "Client run %i\n", getpid());
+    syslog(LOG_INFO, "Client run %d", int(getpid()));
     while (!_isTerminated){
         if (!getState()){
             break;

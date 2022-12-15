@@ -20,9 +20,8 @@ int main(int argc, char *argv[]) {
     Host host;
     int status = EXIT_SUCCESS;
     pid_t hostPid = getpid();
-    printf("host pid = %i\n", getpid());
 
-    host.init(3);
+    host.init(clientNum);
     if (getpid() == hostPid){
         status = host.run();
     }
@@ -103,7 +102,7 @@ int Host::run(void){
 }
 
 void Host::wolfLogic(void) {
-    printf("host pid = %i\n", getpid());
+    syslog(LOG_INFO, "host pid = %d", int(getpid()));
     std::srand(std::time(0));
 
     bool allDied = false;
