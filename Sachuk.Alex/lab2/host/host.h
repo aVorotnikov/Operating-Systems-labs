@@ -7,7 +7,7 @@
 #include <bits/types/siginfo_t.h>
 
 #include "../client/client.h"
-#include "../window/window.h"
+#include "../window/ChatWin.h"
 #include "../connections/abstr_conn.h"
 #include "../messages/messages.h"
 
@@ -16,7 +16,6 @@
 class Host {
 private:
     // Instance
-    static Host hostInstance;
     std::atomic<bool> isRunning = true;
     
     // connetcions
@@ -39,7 +38,6 @@ private:
     static void SignalHandler(int signum, siginfo_t* info, void *ptr);
 
     // Window managment
-    Window* window = nullptr;
     static bool IsRun();
     static bool winRead(Message *msg);
     static void winWrite(Message msg);
@@ -53,5 +51,5 @@ public:
     void run();
     void stop();
 
-    ~Host();
+    ~Host() = default;
 };

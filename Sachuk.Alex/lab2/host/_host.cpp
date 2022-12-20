@@ -1,3 +1,4 @@
+#include <QApplication>
 #include <sys/syslog.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -9,20 +10,6 @@
 
 #include "host.h"
 
-void Host::SignalHandler(int signum, siginfo_t* info, void *ptr) {
-    switch (signum) {
-    case SIGTERM:
-        hostInstance.isRunning = false;
-        return;
-    case SIGINT:
-        syslog(LOG_INFO, "host terminate");
-        exit(EXIT_SUCCESS);
-        return;
-    default:
-        syslog(LOG_INFO, "unknown command");
-    }
-}
-
 Host::Host() {
     struct sigaction sig{};
     memset(&sig, 0, sizeof(sig));
@@ -32,6 +19,19 @@ Host::Host() {
     sigaction(SIGINT, &sig, nullptr);
 }
 
+void Host::SignalHandler(int signum, siginfo_t* info, void *ptr) {
+    switch (signum) {
+    case SIGTERM:
+        Host::getInstance().isRunning = false;
+        return;
+    case SIGINT:
+        syslog(LOG_INFO, "host terminate");
+        exit(EXIT_SUCCESS);
+        return;
+    default:
+        syslog(LOG_INFO, "unknown command");
+    }
+}
 
 void Host::run() {
     // init connections and semafores
@@ -44,11 +44,15 @@ void Host::run() {
     std::thread connThread(&Host::connectionWork, this);
 
     // starts gui
-    window = new Window(std::string("Chat: host window"), winWrite, winRead, IsRun);
-    window->run();
+    std::string winName = "Host";
+    int argc = 1;
+    char* args[] = { (char*)winName.c_str()};
+    QApplication app(argc, args);
+    ChatWin window(winName, winWrite, winRead, IsRun);
+    window.show();
+    app.exec();
     
     // stop working
-    delete window;
     stop();
     connThread.join();
 }
@@ -63,6 +67,7 @@ void Host::stop() {
 
 
 Host& Host::getInstance() {
+    static Host hostInstance;
     return hostInstance;
 }
 
@@ -78,9 +83,9 @@ bool Host::connectionPrepare() {
         return false;
     }
     clientSem = sem_open("Client-sem", O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO, 0);
-    if (hostSem == SEM_FAILED) {
+    if (clientSem == SEM_FAILED) {
         sem_close(hostSem);
-        syslog(LOG_ERR, "ERROR: host semaphore not created");
+        syslog(LOG_ERR, "ERROR: client semaphore not created");
         return false;
     }
 
@@ -92,7 +97,7 @@ bool Host::connectionPrepare() {
 
         if (Client::getInstance().init(hostPid))
             Client::getInstance().run();
-        else
+        else 
         {
             syslog(LOG_ERR, "ERROR: client initialization error");
             return false;
@@ -102,7 +107,7 @@ bool Host::connectionPrepare() {
 
     try {
         conn->connOpen(hostPid, true);
-        hostInstance.isRunning = true;
+        Host::getInstance().isRunning = true;
         syslog(LOG_INFO, "INFO: host initialize successfully");
         return true;
     }
@@ -116,7 +121,6 @@ bool Host::connectionPrepare() {
 
 void Host::connectionWork() {
     auto clock = std::chrono::high_resolution_clock::now();
-    window->setConnected(true);
     
     while (isRunning.load()) {
         double minutes_passed = std::chrono::duration_cast<std::chrono::minutes>(
@@ -124,23 +128,23 @@ void Host::connectionWork() {
 
         if (minutes_passed >= 1) {
           syslog(LOG_INFO, "Killing client for 1 minute silence");
-          kill(m_clientPid, SIGTERM);
-          m_clientPid = -1;
+          kill(clientPid, SIGTERM);
+          clientPid = -1;
           break;
         }
 
-        // Get all messages
-        if (!connectionReadMsgs())
-          break;
 
         // Send all messages
         if (!connectionWriteMsgs())
           break;
 
+        // Get all messages
+        if (!connectionReadMsgs())
+          break;
+
         std::this_thread::sleep_for(std::chrono::milliseconds(30)); // for client get semaphore
     }
     connectionClose();
-    window->setConnected(false);
 }
 
 
@@ -167,6 +171,7 @@ bool Host::connectionReadMsgs() {
 }
 
 bool Host::connectionWriteMsgs() {
+    syslog(LOG_ERR, "Trying send msgs...");
     bool res = messagesOut.PushFromConnection(conn.get());
     sem_post(clientSem);
     return res;
@@ -179,13 +184,13 @@ void Host::connectionClose() {
 }
 
 bool Host::IsRun() {
-    return hostInstance.isRunning.load();
+    return Host::getInstance().isRunning.load();
 }
     
 bool Host::winRead(Message *msg) {
-    return hostInstance.messagesIn.Pop(msg);
+    return Host::getInstance().messagesIn.Pop(msg);
 }
 
 void Host::winWrite(Message msg) {
-    hostInstance.messagesOut.Push(msg);
+    Host::getInstance().messagesOut.Push(msg);
 }

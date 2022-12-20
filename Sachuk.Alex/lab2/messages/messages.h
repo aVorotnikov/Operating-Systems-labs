@@ -5,7 +5,7 @@
 #include "../connections/abstr_conn.h"
 
 // CONSTANT DEFINES
-#define MAX_CHAR_LENGTH 100
+#define MAX_CHAR_LENGTH 300
 using bull = bool;
 struct Message {
     char text[MAX_CHAR_LENGTH];

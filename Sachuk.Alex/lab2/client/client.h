@@ -7,14 +7,12 @@
 #include <bits/types/siginfo_t.h>
 
 #include "../host/host.h"
-#include "../window/window.h"
+#include "../window/ChatWin.h"
 #include "../connections/abstr_conn.h"
 #include "../messages/messages.h"
 
 class Client{
 private:
-    // Instance
-    static Client cientInstance;
     std::atomic<bool> isRunning = true;
     
     // connetcions
@@ -26,7 +24,7 @@ private:
 
     void connectionWork();
 
-    bool connectionPrepare();
+    bool connectionPrepare(const pid_t& hostPid);
     bool connectionReadMsgs();
     bool connectionWriteMsgs();
     void connectionClose();
@@ -37,7 +35,6 @@ private:
     static void SignalHandler(int signum, siginfo_t* info, void *ptr);
 
     // Window managment
-    Window* window = nullptr;
     static bool IsRun();
     static bool winRead(Message *msg);
     static void winWrite(Message msg);
@@ -45,12 +42,12 @@ private:
     // constructions 
     Client();
     Client(const Client&) = delete;
-    Client(Host&&) = delete;
+    Client(Client&&) = delete;
 public:
     static Client& getInstance();
-    static bool init(pid_t hostPid);
+    bool init(const pid_t& hostPid);
     void run();
     void stop();
 
-    ~Client();
+    ~Client() = default;
 };

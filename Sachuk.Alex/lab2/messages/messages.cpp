@@ -40,19 +40,22 @@ bool ConnectedQueue::PushFromConnection(AbstractConnection *conn) {
         mutex.unlock();
         return false;
     }
+    syslog(LOG_ERR, "Total %ui msgs!", size);
+    
 
     // Reading messages
     std::string log_str = std::string("Starting pushing msgs from conn_") + conn->getConnectionCode(); 
-    syslog(LOG_INFO, log_str.c_str());
-
+    syslog(LOG_INFO, "%s", log_str.c_str());
+    
     Message msg;
     for (uint i = 0; i < size; i++) {
+        syslog(LOG_ERR, "Reading msg #%ui", i);
         msg = {0};
         try {
             conn->connRead((void *)&msg, sizeof(Message));
 
-            std::string log_str = std::string("Readed msg: ") + std::string(msg.text);
-            syslog(LOG_INFO, log_str.c_str());
+            log_str = std::string("Readed msg: ") + std::string(msg.text);
+            syslog(LOG_INFO, "%s", log_str.c_str());
             q.push(msg);
         }
         catch (const char *e) {
@@ -74,16 +77,16 @@ bool ConnectedQueue::PopToConnection(AbstractConnection *conn) {
     }
 
     std::string log_str = std::string("Starting pop to conn_") + conn->getConnectionCode(); 
-    syslog(LOG_INFO, log_str.c_str());
+    syslog(LOG_INFO, "%s", log_str.c_str());
     uint size = q.size();
-    conn->write((void *)&size, sizeof(uint));   // Write messages cnt
+    conn->connWrite((void *)&size, sizeof(uint));   // Write messages cnt
     
     Message msg;
     while (!q.empty()) {
         msg = q.front();
         
         try {
-            conn->write((void *)&msg, sizeof(Message));
+            conn->connWrite((void *)&msg, sizeof(Message));
             q.pop();
         }
         catch (const char *e) {
@@ -93,8 +96,8 @@ bool ConnectedQueue::PopToConnection(AbstractConnection *conn) {
         }
     }
 
-    std::string log_str = std::string("Succesful pop into conn_") + conn->getConnectionCode();     
-    syslog(LOG_INFO, log_str.c_str());
+    log_str = std::string("Succesful pop into conn_") + conn->getConnectionCode();     
+    syslog(LOG_INFO, "%s", log_str.c_str());
     mutex.unlock();
     return true;
 }

@@ -13,7 +13,6 @@ public:
     virtual void connRead(void* buf, size_t count) = 0;
     virtual void connWrite(void* buf, size_t count) = 0;
     virtual void connClose() = 0;
-    virtual ~AbstractConnection() = 0;
-
+    
     std::string getConnectionCode() { return TYPE_CODE; };
 };
