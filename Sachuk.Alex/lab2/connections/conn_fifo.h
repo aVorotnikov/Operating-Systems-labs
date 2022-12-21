@@ -15,6 +15,8 @@ public:
         this->fifoFilename = "/tmp/fifo_" + std::to_string(pid);
     };
 
+    void connReinit() {};
+
     void connOpen(size_t id, bool isHost) override;
     void connRead(void* buf, size_t count) override;
     void connWrite(void* buf, size_t count) override;

@@ -33,10 +33,6 @@ void SegConnection::connOpen(size_t pid, bool isHost) {
 }
 
 void SegConnection::connRead(void* buf, size_t count) {
-    // "count == sizeof(uint_t)" means that we want to know msgs cnt -> starts new reading
-    if (count == sizeof(uint_t))
-        seg_shift = 0;
-
     if (count + seg_shift > SIZE)
         throw std::invalid_argument("segment reading error");
         
@@ -45,10 +41,6 @@ void SegConnection::connRead(void* buf, size_t count) {
 }
 
 void SegConnection::connWrite(void* buf, size_t count) {
-    // "count == sizeof(uint_t)" means that we want to know msgs cnt -> starts new writting
-    if (count == sizeof(uint_t))
-        seg_shift = 0;
-
     if (count + seg_shift > SIZE)
         throw std::invalid_argument("segment writting error");
         

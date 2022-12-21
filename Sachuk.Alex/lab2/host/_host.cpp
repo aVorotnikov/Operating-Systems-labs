@@ -142,7 +142,7 @@ void Host::connectionWork() {
         if (!connectionWriteMsgs())
           break;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(30)); // for client get semaphore
+        std::this_thread::sleep_for(std::chrono::milliseconds(32)); // for client get semaphore to read
     }
 
     connectionClose();
@@ -179,7 +179,7 @@ bool Host::connectionReadMsgs() {
 }
 
 bool Host::connectionWriteMsgs() {
-    syslog(LOG_ERR, "INFO [Host]: Trying send msgs...");
+    //syslog(LOG_ERR, "INFO [Host]: Trying send msgs...");
     bool res = messagesOut.PopToConnection(conn.get());
     sem_post(clientSem);
     return res;

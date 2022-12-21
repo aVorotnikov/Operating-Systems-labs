@@ -35,6 +35,8 @@ size_t ConnectedQueue::GetSize() {
 
 bool ConnectedQueue::PushFromConnection(AbstractConnection *conn) {
     mutex.lock();
+    conn->connReinit();
+
     uint size = 0;
     
     // Try to get messages count and leave if we should
@@ -50,16 +52,16 @@ bool ConnectedQueue::PushFromConnection(AbstractConnection *conn) {
         mutex.unlock();
         return false;
     }
-    syslog(LOG_ERR, "Total %ui msgs!", size);
+    syslog(LOG_ERR, "Total %u msgs!", size);
     
 
     // Reading messages
     std::string log_str = std::string("Starting pushing msgs from conn_") + conn->getConnectionCode(); 
-    syslog(LOG_INFO, "%s", log_str.c_str());
+    //syslog(LOG_INFO, "%s", log_str.c_str());
     
     Message msg;
     for (uint i = 0; i < size; i++) {
-        syslog(LOG_ERR, "Reading msg #%ui", i);
+        syslog(LOG_ERR, "Reading msg #%u", i);
         msg = {0};
         try {
             conn->connRead((void *)&msg, sizeof(Message));
@@ -81,9 +83,10 @@ bool ConnectedQueue::PushFromConnection(AbstractConnection *conn) {
 
 bool ConnectedQueue::PopToConnection(AbstractConnection *conn) {
     mutex.lock();
-	
+	conn->connReinit();
+
     std::string log_str = std::string("Starting pop to conn_") + conn->getConnectionCode(); 
-    syslog(LOG_INFO, "%s", log_str.c_str());
+    //syslog(LOG_INFO, "%s", log_str.c_str());
     uint size = q.size();
     conn->connWrite((void *)&size, sizeof(uint));   // Write messages cnt
     
@@ -103,7 +106,7 @@ bool ConnectedQueue::PopToConnection(AbstractConnection *conn) {
     }
 
     log_str = std::string("Succesful pop into conn_") + conn->getConnectionCode();     
-    syslog(LOG_INFO, "%s", log_str.c_str());
+    //syslog(LOG_INFO, "%s", log_str.c_str());
     mutex.unlock();
     return true;
 }

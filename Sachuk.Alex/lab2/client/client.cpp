@@ -127,17 +127,17 @@ bool Client::connectionPrepare(const pid_t& hostPid) {
 void Client::connectionWork() {
     syslog(LOG_INFO, "INFO [Client]: Client starts working");
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(300)); // for client initing
+    std::this_thread::sleep_for(std::chrono::milliseconds(300)); // for host initing
     while (isRunning.load()) {
         // Send all messages
         if (!connectionWriteMsgs())
-          break;
+            break;
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(32)); // for host get semaphore to read
 
         // Get all messages
         if (!connectionReadMsgs())
-          break;
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(30)); // for client get semaphore
+            break;
     }
     connectionClose();
 }
@@ -166,7 +166,7 @@ bool Client::connectionReadMsgs() {
 }
 
 bool Client::connectionWriteMsgs() {
-    syslog(LOG_ERR, "INFO [Client]: Trying send msgs...");
+    //syslog(LOG_ERR, "INFO [Client]: Trying send msgs...");
     bool res = messagesOut.PopToConnection(conn.get());
     sem_post(hostSem);
     return res;
@@ -176,6 +176,7 @@ void Client::connectionClose() {
     conn->connClose();
     sem_close(hostSem);
     sem_close(clientSem);
+    kill(hostPid, SIGTERM);
 }
 
 bool Client::IsRun() {

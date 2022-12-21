@@ -17,6 +17,8 @@ private:
 public:
     SegConnection(pid_t pid, bool isHost) : isHost(isHost) { TYPE_CODE = SEG_CODE; };
 
+    void connReinit() {seg_shift = 0;};
+
     void connOpen(size_t pid, bool isHost) override;
     void connRead(void* buf, size_t count) override;
     void connWrite(void* buf, size_t count) override;
