@@ -89,6 +89,17 @@ bool Host::connectionPrepare() {
         return false;
     }
 
+    try {
+        AbstractConnection *raw = conn.get();
+        raw->connOpen(hostPid, true);
+    }
+    catch (std::exception &e) {
+        syslog(LOG_ERR, "ERROR: %s", e.what());
+        sem_close(hostSem);
+        sem_close(clientSem);
+        return false;
+    }
+
     // init child process
     pid_t childPid = fork();
     if (childPid == 0)
@@ -105,19 +116,9 @@ bool Host::connectionPrepare() {
         exit(EXIT_SUCCESS);
     }
 
-    try {
-        AbstractConnection *raw = conn.get();
-        raw->connOpen(hostPid, true);
-        Host::getInstance().isRunning = true;
-        syslog(LOG_INFO, "INFO: host initialize successfully");
-        return true;
-    }
-    catch (std::exception &e) {
-        syslog(LOG_ERR, "ERROR: %s", e.what());
-        sem_close(hostSem);
-        sem_close(clientSem);
-        return false;
-    }
+    Host::getInstance().isRunning = true;
+    syslog(LOG_INFO, "INFO: host initialize successfully");
+    return true;
 }
 
 void Host::connectionWork() {
@@ -155,7 +156,7 @@ bool Host::connectionReadMsgs() {
 
         clock_gettime(CLOCK_REALTIME, &t);
 
-        t.tv_sec += 5;
+        t.tv_sec += 59;
 
         int s = sem_timedwait(hostSem, &t);
         if (s == -1)

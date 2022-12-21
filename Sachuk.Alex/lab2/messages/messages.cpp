@@ -45,8 +45,8 @@ bool ConnectedQueue::PushFromConnection(AbstractConnection *conn) {
             return true;
         }
     }
-    catch (const char *e) {
-        syslog(LOG_ERR, "%s", e);
+    catch (std::exception &e) {
+        syslog(LOG_ERR, "%s", e.what());
         mutex.unlock();
         return false;
     }
@@ -68,8 +68,8 @@ bool ConnectedQueue::PushFromConnection(AbstractConnection *conn) {
             syslog(LOG_INFO, "%s", log_str.c_str());
             q.push(msg);
         }
-        catch (const char *e) {
-            syslog(LOG_ERR, "%s", e);
+        catch (std::exception &e) {
+            syslog(LOG_ERR, "%s", e.what());
             mutex.unlock();
             return false;
         }
@@ -95,8 +95,8 @@ bool ConnectedQueue::PopToConnection(AbstractConnection *conn) {
             conn->connWrite((void *)&msg, sizeof(Message));
             q.pop();
         }
-        catch (const char *e) {
-            syslog(LOG_ERR, "%s", e);
+        catch (std::exception &e) {
+            syslog(LOG_ERR, "%s", e.what());
             mutex.unlock();
             return false;
         }

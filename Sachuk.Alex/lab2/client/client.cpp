@@ -150,7 +150,7 @@ bool Client::connectionReadMsgs() {
 
         clock_gettime(CLOCK_REALTIME, &t);
 
-        t.tv_sec += 5;
+        t.tv_sec += 59;
 
         int s = sem_timedwait(clientSem, &t);
         if (s == -1)

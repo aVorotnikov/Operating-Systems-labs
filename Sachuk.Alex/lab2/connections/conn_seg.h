@@ -6,7 +6,7 @@
 
 class SegConnection : public AbstractConnection {
 private:
-    const std::string SEG_CODE = "SEG_CONN";
+    const std::string SEG_CODE = "shm";
     const uint SIZE = 1024;
 
     bool isHost;

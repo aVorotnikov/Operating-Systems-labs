@@ -4,7 +4,7 @@
 
 class FifoConnection : public AbstractConnection {
 private:
-    const std::string FIFO_CODE = "FIFO_CONN";
+    const std::string FIFO_CODE = "fifo";
 
     bool isHost;
     std::string fifoFilename;

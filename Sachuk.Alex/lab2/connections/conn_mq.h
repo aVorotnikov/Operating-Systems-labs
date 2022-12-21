@@ -6,7 +6,7 @@
 
 class MQConnection : public AbstractConnection {
 private:
-    const std::string MQ_CODE = "MQ_CONN";
+    const std::string MQ_CODE = "mq";
     const size_t MAX_SIZE = sizeof(Message);
 
     bool isCreator;

@@ -21,16 +21,14 @@ void SegConnection::connOpen(size_t pid, bool isHost) {
         segId = shmget(pid, SIZE, 0666);
 
     if (segId == -1)
-        //throw("error while opening segment");
-        syslog(LOG_INFO, "error while opening segment");
-
+        throw std::runtime_error("error while opening segment");
+        
     seg = shmat(segId, 0, 0);
     if (seg == (void*)-1) {
         if (isHost)
             shmctl(segId, IPC_RMID, 0);
         
-        //throw("error while opening segment");
-        syslog(LOG_INFO, "error while opening segment-2");
+        throw std::runtime_error("error while opening segment");
     }
 }
 
@@ -40,7 +38,7 @@ void SegConnection::connRead(void* buf, size_t count) {
         seg_shift = 0;
 
     if (count + seg_shift > SIZE)
-        throw("segment reading error");
+        throw std::invalid_argument("segment reading error");
         
     memcpy(buf, ((char *)seg + seg_shift), count);
     seg_shift += count;
@@ -52,7 +50,7 @@ void SegConnection::connWrite(void* buf, size_t count) {
         seg_shift = 0;
 
     if (count + seg_shift > SIZE)
-        throw "segment writting error";
+        throw std::invalid_argument("segment writting error");
         
     memcpy(((char *)seg + seg_shift), buf, count);
     seg_shift += count;
