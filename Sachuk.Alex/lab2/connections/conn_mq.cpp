@@ -12,18 +12,18 @@ void MQConnection::connOpen(size_t id, bool isHost) {
     attr.mq_curmsgs = 0;
 
     if (isHost)
-        mq = mq_open(mqFilename.c_str(), O_CREAT | O_RDWR | O_EXCL, 0644, &attr);
+        mq = mq_open(mqFilename.c_str(), O_CREAT | O_RDWR, S_IRWXU | S_IRWXG | S_IRWXO, &attr);
     else
         mq = mq_open(mqFilename.c_str(), O_RDWR);
 
-    if ((mqd_t) - 1 == mq)
+    if (mq < 0)
         throw("error while opening mqueue");
 }
 
 void MQConnection::connRead(void* buf, size_t count) {
     if (count > MAX_SIZE)
         throw("Read error");
-    mq_receive(mq, (char *)buf, MAX_SIZE, nullptr);
+    mq_receive(mq, (char *)buf, count, nullptr);
 }
 
 void MQConnection::connWrite(void* buf, size_t count) {

@@ -16,16 +16,16 @@ void Client::SignalHandler(int signum, siginfo_t* info, void *ptr) {
         Client::getInstance().isRunning = false;
         return;
     case SIGINT:
-        syslog(LOG_INFO, "client terminated");
+        syslog(LOG_INFO, "INFO[Client] client terminated");
         exit(EXIT_SUCCESS);
         return;
     case SIGUSR1:
-        syslog(LOG_INFO, "chat terminated");
+        syslog(LOG_INFO, "INFO[Client] chat terminated");
         kill(Client::getInstance().hostPid, SIGTERM);
         exit(EXIT_SUCCESS);
         return;
     default:
-        syslog(LOG_INFO, "unknown command");
+        syslog(LOG_INFO, "INFO[Client] unknown command");
     }
 }
 
@@ -43,15 +43,21 @@ Client::Client() {
 
 bool Client::init(const pid_t& hostPid) {
     // init connections and semafores
-    syslog(LOG_INFO, "Clinet-chat initializing");
+    syslog(LOG_INFO, "INFO[Client]: initializing");
     isRunning = connectionPrepare(hostPid);
+
+    if (isRunning)
+        syslog(LOG_INFO, "INFO[Client]: All inited succesful");
+    else
+        syslog(LOG_INFO, "INFO[Client]: Cant init chat");
+
     return isRunning;
 }
 
 
 void Client::run() {
     // init connections and semafores
-    syslog(LOG_INFO, "Client-chat started");
+    syslog(LOG_INFO, "INFO[Client]: Client started run");
     
     // start connection working in different thread
     std::thread connThread(&Client::connectionWork, this);
@@ -73,7 +79,7 @@ void Client::run() {
 
 void Client::stop() {
     if (isRunning.load()) {
-        syslog(LOG_INFO, "Chat-client: stop working");
+        syslog(LOG_INFO, "INFO[Client] stop working");
         isRunning = false;
     }
 }
@@ -87,31 +93,31 @@ Client& Client::getInstance() {
 
 bool Client::connectionPrepare(const pid_t& hostPid) {
     // init connections and semaphores
-    syslog(LOG_INFO, "Chat-host-conn: start init");
+    syslog(LOG_INFO, "INFO [Client]: start init connection");
     this->hostPid = hostPid;
     
     conn = AbstractConnection::createConnection(hostPid, false);
 
-    hostSem = sem_open("Host-sem", O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO, 0);
+    hostSem = sem_open("/Host-sem", O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO, 0);
     if (hostSem == SEM_FAILED) {
-        syslog(LOG_ERR, "ERROR: cant connect to host sem");
+        syslog(LOG_ERR, "ERROR [Client]: cant connect to host sem");
         return false;
     }
-    clientSem = sem_open("Client-sem", O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO, 0);
+    clientSem = sem_open("/Client-sem", O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO, 0);
     if (clientSem == SEM_FAILED) {
         sem_close(hostSem);
-        syslog(LOG_ERR, "ERROR: cant connect to client sem");
+        syslog(LOG_ERR, "ERROR [Client]: cant connect to client sem");
         return false;
     }
 
     try {
         conn->connOpen(hostPid, false);
         Client::getInstance().isRunning = true;
-        syslog(LOG_INFO, "INFO: host initialize successfully");
+        syslog(LOG_INFO, "INFO [Client]: connection initializing complete!");
         return true;
     }
     catch (std::exception &e) {
-        syslog(LOG_ERR, "ERROR: %s", e.what());
+        syslog(LOG_ERR, "ERROR [Client]: %s", e.what());
         sem_close(hostSem);
         sem_close(clientSem);
         return false;
@@ -119,10 +125,10 @@ bool Client::connectionPrepare(const pid_t& hostPid) {
 }
 
 void Client::connectionWork() {
-    syslog(LOG_INFO, "Client starts working");
+    syslog(LOG_INFO, "INFO [Client]: Client starts working");
 
+    std::this_thread::sleep_for(std::chrono::milliseconds(300)); // for client initing
     while (isRunning.load()) {
-        
         // Send all messages
         if (!connectionWriteMsgs())
           break;
@@ -149,19 +155,19 @@ bool Client::connectionReadMsgs() {
         int s = sem_timedwait(clientSem, &t);
         if (s == -1)
         {
-            syslog(LOG_ERR, "Read semaphore timeout");
+            syslog(LOG_ERR, "ERROR[Client] Read semaphore timeout");
             isRunning = false;
             return false;
         }
     }
 
-    messagesIn.PopToConnection(conn.get());
+    messagesIn.PushFromConnection(conn.get());
     return true;
 }
 
 bool Client::connectionWriteMsgs() {
-    syslog(LOG_ERR, "Trying send msgs...");
-    bool res = messagesOut.PushFromConnection(conn.get());
+    syslog(LOG_ERR, "INFO [Client]: Trying send msgs...");
+    bool res = messagesOut.PopToConnection(conn.get());
     sem_post(hostSem);
     return res;
 }

@@ -1,0 +1,122 @@
+[
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_fifo_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_fifo.dir/host_fifo_autogen/mocs_compilation.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_fifo_autogen/mocs_compilation.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_fifo_autogen/mocs_compilation.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_fifo_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_fifo.dir/window/ChatWin.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/window/ChatWin.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/window/ChatWin.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_fifo_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_fifo.dir/window/moc_ChatWin.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/window/moc_ChatWin.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/window/moc_ChatWin.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_fifo_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_fifo.dir/host/_host.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/host/_host.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/host/_host.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_fifo_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_fifo.dir/host/host.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/host/host.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/host/host.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_fifo_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_fifo.dir/messages/messages.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/messages/messages.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/messages/messages.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_fifo_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_fifo.dir/client/client.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/client/client.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/client/client.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_fifo_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_fifo.dir/connections/conn_fifo.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/connections/conn_fifo.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/connections/conn_fifo.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_mq_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_mq.dir/host_mq_autogen/mocs_compilation.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_mq_autogen/mocs_compilation.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_mq_autogen/mocs_compilation.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_mq_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_mq.dir/window/ChatWin.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/window/ChatWin.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/window/ChatWin.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_mq_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_mq.dir/window/moc_ChatWin.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/window/moc_ChatWin.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/window/moc_ChatWin.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_mq_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_mq.dir/host/_host.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/host/_host.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/host/_host.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_mq_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_mq.dir/host/host.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/host/host.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/host/host.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_mq_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_mq.dir/messages/messages.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/messages/messages.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/messages/messages.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_mq_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_mq.dir/client/client.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/client/client.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/client/client.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_mq_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_mq.dir/connections/conn_mq.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/connections/conn_mq.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/connections/conn_mq.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_seg_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_seg.dir/host_seg_autogen/mocs_compilation.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_seg_autogen/mocs_compilation.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_seg_autogen/mocs_compilation.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_seg_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_seg.dir/window/ChatWin.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/window/ChatWin.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/window/ChatWin.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_seg_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_seg.dir/window/moc_ChatWin.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/window/moc_ChatWin.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/window/moc_ChatWin.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_seg_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_seg.dir/host/_host.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/host/_host.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/host/_host.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_seg_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_seg.dir/host/host.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/host/host.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/host/host.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_seg_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_seg.dir/messages/messages.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/messages/messages.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/messages/messages.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_seg_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_seg.dir/client/client.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/client/client.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/client/client.cpp"
+},
+{
+  "directory": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/host_seg_autogen/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -Wall -Werror -fPIC -std=gnu++17 -o CMakeFiles/host_seg.dir/connections/conn_seg.cpp.o -c /home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/connections/conn_seg.cpp",
+  "file": "/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/connections/conn_seg.cpp"
+}
+]

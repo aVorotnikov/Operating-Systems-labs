@@ -23,6 +23,16 @@ bool ConnectedQueue::Pop(Message* msg) {
     return true;
 }
 
+size_t ConnectedQueue::GetSize() {
+    size_t elements = -1;
+
+    mutex.lock();
+    elements = q.size();
+    mutex.unlock();
+
+    return elements;
+}
+
 bool ConnectedQueue::PushFromConnection(AbstractConnection *conn) {
     mutex.lock();
     uint size = 0;
@@ -71,11 +81,7 @@ bool ConnectedQueue::PushFromConnection(AbstractConnection *conn) {
 
 bool ConnectedQueue::PopToConnection(AbstractConnection *conn) {
     mutex.lock();
-	if (q.empty()) {
-        mutex.unlock();
-        return false;
-    }
-
+	
     std::string log_str = std::string("Starting pop to conn_") + conn->getConnectionCode(); 
     syslog(LOG_INFO, "%s", log_str.c_str());
     uint size = q.size();

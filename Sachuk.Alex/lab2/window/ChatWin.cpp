@@ -1,4 +1,5 @@
 #include <QWidget>
+#include <sys/syslog.h>
 
 #include "string.h"
 #include "ui_ChatWin.h"
@@ -34,9 +35,10 @@ std::string ChatWin::constructMessage() {
 }
 
 void ChatWin::sendMessage() {
-    Message msg;
+    syslog(LOG_INFO, "INFO [%s]: Something sended...", windowName.c_str());
+    Message msg = {0};
     std::string msgText = constructMessage();
-    size_t len = msgText.size() > MAX_CHAR_LENGTH ? MAX_CHAR_LENGTH : msgText.size();
+    size_t len = msgText.size() > MAX_CHAR_LENGTH ? MAX_CHAR_LENGTH - 1 : msgText.size();
     strncpy(msg.text, msgText.c_str(), len);
     winReadCallback(msg);
 }
@@ -47,7 +49,7 @@ void ChatWin::updateTimer() {
 
     Message msg = {0};
     while (winWriteCallback(&msg))
-      ui->msgsHist->addItem(msg.text);
+        ui->msgsHist->addItem(msg.text);
 }
 
 ChatWin::~ChatWin() {

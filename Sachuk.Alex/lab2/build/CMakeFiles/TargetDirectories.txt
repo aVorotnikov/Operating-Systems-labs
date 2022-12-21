@@ -1,0 +1,8 @@
+/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/CMakeFiles/host_fifo.dir
+/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/CMakeFiles/host_mq.dir
+/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/CMakeFiles/host_seg.dir
+/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/CMakeFiles/edit_cache.dir
+/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/CMakeFiles/rebuild_cache.dir
+/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/CMakeFiles/host_fifo_autogen.dir
+/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/CMakeFiles/host_mq_autogen.dir
+/home/alex/Operating-Systems-labs/Sachuk.Alex/lab2/build/CMakeFiles/host_seg_autogen.dir

@@ -2,11 +2,12 @@
 
 #include <mqueue.h>
 #include "abstr_conn.h"
+#include "../messages/messages.h"
 
 class MQConnection : public AbstractConnection {
 private:
     const std::string MQ_CODE = "MQ_CONN";
-    const size_t MAX_SIZE = 4096;
+    const size_t MAX_SIZE = sizeof(Message);
 
     bool isCreator;
     std::string mqFilename;
@@ -15,7 +16,7 @@ private:
 public:
     MQConnection(pid_t pid, bool isHost) : isCreator(isHost) {
         TYPE_CODE = MQ_CODE;
-        this->mqFilename = "/tmp/mq_" + std::to_string(pid);
+        this->mqFilename = "/mq_" + std::to_string(pid);
     };
 
     void connOpen(size_t id, bool isHost) override;

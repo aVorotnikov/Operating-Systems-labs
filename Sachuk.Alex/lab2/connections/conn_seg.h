@@ -2,15 +2,18 @@
 
 #include <sys/shm.h>
 #include "abstr_conn.h"
+#include "../messages/messages.h"
 
 class SegConnection : public AbstractConnection {
 private:
     const std::string SEG_CODE = "SEG_CONN";
-    const uint SIZE = sizeof(int);
+    const uint SIZE = 1024;
 
     bool isHost;
     int segId;
     void* seg = nullptr;
+
+    int seg_shift;
 public:
     SegConnection(pid_t pid, bool isHost) : isHost(isHost) { TYPE_CODE = SEG_CODE; };
 

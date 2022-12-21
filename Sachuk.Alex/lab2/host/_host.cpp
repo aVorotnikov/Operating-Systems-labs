@@ -77,12 +77,12 @@ bool Host::connectionPrepare() {
     syslog(LOG_INFO, "Chat-host-conn: start init");
     hostPid = getpid();
     conn = AbstractConnection::createConnection(hostPid, true);
-    hostSem = sem_open("Host-sem", O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO, 0);
+    hostSem = sem_open("/Host-sem", O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO, 0);
     if (hostSem == SEM_FAILED) {
         syslog(LOG_ERR, "ERROR: host semaphore not created");
         return false;
     }
-    clientSem = sem_open("Client-sem", O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO, 0);
+    clientSem = sem_open("/Client-sem", O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO, 0);
     if (clientSem == SEM_FAILED) {
         sem_close(hostSem);
         syslog(LOG_ERR, "ERROR: client semaphore not created");
@@ -106,7 +106,8 @@ bool Host::connectionPrepare() {
     }
 
     try {
-        conn->connOpen(hostPid, true);
+        AbstractConnection *raw = conn.get();
+        raw->connOpen(hostPid, true);
         Host::getInstance().isRunning = true;
         syslog(LOG_INFO, "INFO: host initialize successfully");
         return true;
@@ -120,30 +121,29 @@ bool Host::connectionPrepare() {
 }
 
 void Host::connectionWork() {
-    auto clock = std::chrono::high_resolution_clock::now();
-    
+    lastMsgTime = std::chrono::high_resolution_clock::now();
+
     while (isRunning.load()) {
         double minutes_passed = std::chrono::duration_cast<std::chrono::minutes>(
-            std::chrono::high_resolution_clock::now() - clock).count();
+            std::chrono::high_resolution_clock::now() - lastMsgTime).count();
 
         if (minutes_passed >= 1) {
-          syslog(LOG_INFO, "Killing client for 1 minute silence");
-          kill(clientPid, SIGTERM);
-          clientPid = -1;
+          syslog(LOG_INFO, "INFO [Host]: Killing chat for 1 minute silence");
+          isRunning = false;
           break;
         }
-
-
-        // Send all messages
-        if (!connectionWriteMsgs())
-          break;
 
         // Get all messages
         if (!connectionReadMsgs())
           break;
 
+        // Send all messages
+        if (!connectionWriteMsgs())
+          break;
+
         std::this_thread::sleep_for(std::chrono::milliseconds(30)); // for client get semaphore
     }
+
     connectionClose();
 }
 
@@ -160,19 +160,26 @@ bool Host::connectionReadMsgs() {
         int s = sem_timedwait(hostSem, &t);
         if (s == -1)
         {
-            syslog(LOG_ERR, "Read semaphore timeout");
+            syslog(LOG_ERR, "ERROR [Host]: Read semaphore timeout");
             isRunning = false;
             return false;
         }
     }
 
-    messagesIn.PopToConnection(conn.get());
+    if (messagesIn.PushFromConnection(conn.get()) == false)
+    {
+        isRunning = false;
+        return false;
+    }
+    else if (messagesIn.GetSize() > 0)
+        lastMsgTime = std::chrono::high_resolution_clock::now();
+
     return true;
 }
 
 bool Host::connectionWriteMsgs() {
-    syslog(LOG_ERR, "Trying send msgs...");
-    bool res = messagesOut.PushFromConnection(conn.get());
+    syslog(LOG_ERR, "INFO [Host]: Trying send msgs...");
+    bool res = messagesOut.PopToConnection(conn.get());
     sem_post(clientSem);
     return res;
 }
@@ -181,6 +188,7 @@ void Host::connectionClose() {
     conn->connClose();
     sem_close(hostSem);
     sem_close(clientSem);
+    kill(clientPid, SIGTERM);
 }
 
 bool Host::IsRun() {

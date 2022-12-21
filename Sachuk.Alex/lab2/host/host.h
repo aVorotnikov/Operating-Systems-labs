@@ -38,6 +38,7 @@ private:
     static void SignalHandler(int signum, siginfo_t* info, void *ptr);
 
     // Window managment
+    std::chrono::time_point<std::chrono::high_resolution_clock> lastMsgTime;
     static bool IsRun();
     static bool winRead(Message *msg);
     static void winWrite(Message msg);
