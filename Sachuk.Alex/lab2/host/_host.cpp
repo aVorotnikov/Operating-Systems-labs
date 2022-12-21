@@ -156,7 +156,7 @@ bool Host::connectionReadMsgs() {
 
         clock_gettime(CLOCK_REALTIME, &t);
 
-        t.tv_sec += 59;
+        t.tv_sec += 5;
 
         int s = sem_timedwait(hostSem, &t);
         if (s == -1)

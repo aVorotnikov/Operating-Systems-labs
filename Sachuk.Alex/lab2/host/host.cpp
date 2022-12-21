@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
     try {
         Host::getInstance().run();
     } catch (std::exception &e) {
-
+        syslog(LOG_ERR, "ERROR: %s. Close chat...", e.what());
     }
 
     closelog();
