@@ -56,9 +56,8 @@ bool ConnectedQueue::PushFromConnection(AbstractConnection *conn) {
     
 
     // Reading messages
-    std::string log_str = std::string("Starting pushing msgs from conn_") + conn->getConnectionCode(); 
-    //syslog(LOG_INFO, "%s", log_str.c_str());
-    
+    std::string log_str; 
+
     Message msg;
     for (uint i = 0; i < size; i++) {
         syslog(LOG_ERR, "Reading msg #%u", i);
@@ -85,8 +84,7 @@ bool ConnectedQueue::PopToConnection(AbstractConnection *conn) {
     mutex.lock();
 	conn->connReinit();
 
-    std::string log_str = std::string("Starting pop to conn_") + conn->getConnectionCode(); 
-    //syslog(LOG_INFO, "%s", log_str.c_str());
+    std::string log_str;
     uint size = q.size();
     conn->connWrite((void *)&size, sizeof(uint));   // Write messages cnt
     
@@ -95,7 +93,10 @@ bool ConnectedQueue::PopToConnection(AbstractConnection *conn) {
         msg = q.front();
         
         try {
+            
             conn->connWrite((void *)&msg, sizeof(Message));
+            log_str = std::string("Wrotten msg: ") + std::string(msg.text);
+            syslog(LOG_INFO, "%s", log_str.c_str());
             q.pop();
         }
         catch (std::exception &e) {
@@ -105,8 +106,6 @@ bool ConnectedQueue::PopToConnection(AbstractConnection *conn) {
         }
     }
 
-    log_str = std::string("Succesful pop into conn_") + conn->getConnectionCode();     
-    //syslog(LOG_INFO, "%s", log_str.c_str());
     mutex.unlock();
     return true;
 }

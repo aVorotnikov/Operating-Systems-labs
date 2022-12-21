@@ -166,7 +166,6 @@ bool Client::connectionReadMsgs() {
 }
 
 bool Client::connectionWriteMsgs() {
-    //syslog(LOG_ERR, "INFO [Client]: Trying send msgs...");
     bool res = messagesOut.PopToConnection(conn.get());
     sem_post(hostSem);
     return res;
