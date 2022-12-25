@@ -15,7 +15,7 @@ public:
     bool Write(const void* buf, const std::size_t count) override;
 
 private:
-    static constexpr char filePathTemplate_[] = "/tmp/mq_";
+    static constexpr char filePathTemplate_[] = "/mq_";
     static constexpr std::size_t msgSize = 64;
     const std::string absPath_;
     mqd_t mqd_;
