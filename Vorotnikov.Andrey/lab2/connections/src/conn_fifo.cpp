@@ -13,8 +13,8 @@ std::shared_ptr<Connection> GetConnection(pid_t pid, Connection::Type type)
 
 ConnectionFifo::ConnectionFifo(pid_t pid, Connection::Type type) :
     Connection(pid, type),
-    fileDescriptor_(-1),
-    absPath_(filePathTemplate_ + std::to_string(hostPid_))
+    absPath_(filePathTemplate_ + std::to_string(hostPid_)),
+    fileDescriptor_(-1)
 {
     static constexpr mode_t mkfifoMode = 0777;
     if (Connection::Type::Host == type_)

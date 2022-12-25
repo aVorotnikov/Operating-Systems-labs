@@ -1,3 +1,5 @@
+#pragma once
+
 #include "conn.h"
 
 #include <string>
@@ -12,6 +14,6 @@ public:
 
 private:
     static constexpr char filePathTemplate_[] = "/tmp/fifo_";
-    int fileDescriptor_;
     const std::string absPath_;
+    int fileDescriptor_;
 };

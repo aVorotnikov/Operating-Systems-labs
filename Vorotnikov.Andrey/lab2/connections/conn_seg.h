@@ -1,3 +1,5 @@
+#pragma once
+
 #include "conn.h"
 
 class ConnectionSeg : public Connection
