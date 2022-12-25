@@ -15,6 +15,7 @@ public:
     bool Run();
 
 private:
+    static constexpr std::size_t timeoutOnSem_ = 10;
     static Client instance_;
     Client();
 

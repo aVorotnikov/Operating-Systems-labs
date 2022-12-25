@@ -41,10 +41,31 @@ bool Client::SendNum()
 {
     if (!utils::SendRaw(connection_, game_rules::GetRandomForGhoat(isAlive_)))
     {
-        syslog(LOG_ERR, "Failed to connect with host");
+        syslog(LOG_ERR, "Failed to connect with host while sending");
         return false;
     }
     sem_post(semOnWrite_);
+    return true;
+}
+
+bool Client::GetGhoatState()
+{
+    timespec t;
+    clock_gettime(CLOCK_REALTIME, &t);
+    t.tv_sec += timeoutOnSem_;
+
+    int waiting = sem_timedwait(semOnRead_, &t);
+    if (-1 == waiting)
+    {
+        syslog(LOG_ERR, "Failed to wait server response");
+        return false;
+    }
+
+    if (!utils::GetRaw(connection_, isAlive_))
+    {
+        syslog(LOG_ERR, "Failed to connect with host while getting");
+        return false;
+    }
     return true;
 }
 
@@ -79,7 +100,18 @@ bool Client::Run()
 
     while (needWork_)
     {
-        // work
+        if (!GetGhoatState())
+        {
+            sem_close(semOnRead_);
+            sem_close(semOnWrite_);
+            return false;
+        }
+        if (!SendNum())
+        {
+            sem_close(semOnRead_);
+            sem_close(semOnWrite_);
+            return false;
+        }
     }
 
     sem_close(semOnRead_);
