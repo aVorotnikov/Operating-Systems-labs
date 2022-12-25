@@ -37,16 +37,16 @@ int GetRandomForGhoat(bool isAlive)
     return GetRandomForDeadGhoat();
 }
 
-bool CheckStateForAliveGoat(int wolf, int goat, int aliveNumber)
+bool CheckStateForAliveGoat(int wolf, int goat, int ghoatNumber)
 {
-    if (std::abs(wolf - goat) > 70 / aliveNumber)
+    if (std::abs(wolf - goat) > 70 / ghoatNumber)
         return false;
     return true;
 }
 
-bool CheckStateForDeadGoat(int wolf, int goat, int aliveNumber)
+bool CheckStateForDeadGoat(int wolf, int goat, int ghoatNumber)
 {
-    if (std::abs(wolf - goat) > 20 / aliveNumber)
+    if (std::abs(wolf - goat) > 20 / ghoatNumber)
         return false;
     return true;
 }

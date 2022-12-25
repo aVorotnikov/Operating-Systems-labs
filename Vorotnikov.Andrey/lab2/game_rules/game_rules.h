@@ -18,7 +18,7 @@ int GetRandomForAliveGhoat();
 int GetRandomForDeadGhoat();
 int GetRandomForGhoat(bool isAlive);
 
-bool CheckStateForAliveGoat(int wolf, int goat, int aliveNumber);
-bool CheckStateForDeadGoat(int wolf, int goat, int aliveNumber);
+bool CheckStateForAliveGoat(int wolf, int goat, int ghoatNumber);
+bool CheckStateForDeadGoat(int wolf, int goat, int ghoatNumber);
 
 }
