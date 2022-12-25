@@ -6,6 +6,7 @@ set(CMAKE_CXX_FLAGS "-Wall -Werror")
 project("wolf_and_goats")
 
 add_subdirectory(connections)
+add_subdirectory(game_rules)
 add_subdirectory(host)
 add_subdirectory(client)
 

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../../connections/conn.h"
 
 class Client
