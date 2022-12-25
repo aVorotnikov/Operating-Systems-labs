@@ -16,8 +16,12 @@ public:
 
 private:
     static constexpr std::size_t timeoutOnSem_ = 10;
+
     static Client instance_;
     Client();
+
+    Client(const Client&) = delete;
+    Client& operator=(const Client&) = delete;
 
     bool SendNum();
     bool GetGhoatState();

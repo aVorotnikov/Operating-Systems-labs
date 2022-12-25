@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    auto client = Client::GetRef();
+    auto& client = Client::GetRef();
     try
     {
         client.SetConnection(Connection::GetConnection(hostPid, Connection::Type::Client));
