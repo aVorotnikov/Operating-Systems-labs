@@ -71,8 +71,8 @@ bool Client::GetGhoatState()
 
 bool Client::Run()
 {
-    constexpr char semaphoreOnReadNameTemplate[] = "/tmp/client_";
-    constexpr char semaphoreOnWriteNameTemplate[] = "/tmp/host_";
+    constexpr char semaphoreOnReadNameTemplate[] = "/client_";
+    constexpr char semaphoreOnWriteNameTemplate[] = "/host_";
 
     syslog(LOG_INFO, "Running client");
 
