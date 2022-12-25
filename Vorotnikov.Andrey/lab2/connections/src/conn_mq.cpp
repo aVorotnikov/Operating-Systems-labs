@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-std::shared_ptr<Connection> GetConnection(pid_t pid, Connection::Type type)
+std::shared_ptr<Connection> Connection::GetConnection(pid_t pid, Connection::Type type)
 {
     return std::make_shared<ConnectionMq>(pid, type);
 }
