@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstddef>
+
 namespace game_rules
 {
 
@@ -20,5 +22,7 @@ int GetRandomForGhoat(bool isAlive);
 
 bool CheckStateForAliveGoat(int wolf, int goat, int ghoatNumber);
 bool CheckStateForDeadGoat(int wolf, int goat, int ghoatNumber);
+
+static constexpr std::size_t roundsNumberToWin = 2;
 
 }
