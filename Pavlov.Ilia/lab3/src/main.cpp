@@ -36,18 +36,18 @@ int main(int argc, char* argv[]) {
 
 	std::cout << "Coarse-Grained:\n";
 	Tester<SetCoarseSync<int>>::WritersFuncTest(params.nThreadsWriters, params.sizeWriters);
-	Tester<SetCoarseSync<int>>::ReadersFuncTest(params.nThreadsReaders, params.sizeWriters);
+	Tester<SetCoarseSync<int>>::ReadersFuncTest(params.nThreadsReaders, params.sizeReaders);
 	Tester<SetCoarseSync<int>>::GeneralFuncTest(params.sizeReaders, params.sizeWriters);
 	Tester<SetCoarseSync<int>>::WritersPerfTest(params.nThreadsWriters, params.sizeWriters, params.numOfTests);
-	Tester<SetCoarseSync<int>>::ReadersPerfTest(params.nThreadsWriters, params.sizeWriters, params.numOfTests);
+	Tester<SetCoarseSync<int>>::ReadersPerfTest(params.nThreadsWriters, params.sizeReaders, params.numOfTests);
 	Tester<SetCoarseSync<int>>::GeneralPerfTest(params.sizeReaders, params.sizeWriters, params.numOfTests);
 
 	std::cout << "\nFine-Grained:\n";
 	Tester<SetFineSync<int>>::WritersFuncTest(params.nThreadsWriters, params.sizeWriters);
-	Tester<SetFineSync<int>>::ReadersFuncTest(params.nThreadsReaders, params.sizeWriters);
+	Tester<SetFineSync<int>>::ReadersFuncTest(params.nThreadsReaders, params.sizeReaders);
 	Tester<SetFineSync<int>>::GeneralFuncTest(params.sizeReaders, params.sizeWriters);
 	Tester<SetFineSync<int>>::WritersPerfTest(params.nThreadsWriters, params.sizeWriters, params.numOfTests);
-	Tester<SetFineSync<int>>::ReadersPerfTest(params.nThreadsWriters, params.sizeWriters, params.numOfTests);
+	Tester<SetFineSync<int>>::ReadersPerfTest(params.nThreadsWriters, params.sizeReaders, params.numOfTests);
 	Tester<SetFineSync<int>>::GeneralPerfTest(params.sizeReaders, params.sizeWriters, params.numOfTests);
 	
 	return 0;
