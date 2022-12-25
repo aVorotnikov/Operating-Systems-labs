@@ -80,8 +80,16 @@ bool Client::Run()
         return false;
     needWork_ = true;
 
-    std::string semaphoreOnReadName = semaphoreOnReadNameTemplate + std::to_string(connection_->hostPid_);
-    std::string semaphoreOnWriteName = semaphoreOnWriteNameTemplate + std::to_string(connection_->hostPid_);
+    auto hostPid = connection_->hostPid_;
+
+    if (kill(hostPid, SIGUSR1) < 0)
+    {
+        syslog(LOG_ERR, "Failed to send signal to host");
+        return false;
+    }
+
+    std::string semaphoreOnReadName = semaphoreOnReadNameTemplate + std::to_string(hostPid);
+    std::string semaphoreOnWriteName = semaphoreOnWriteNameTemplate + std::to_string(hostPid);
     semOnRead_ = sem_open(semaphoreOnReadName.c_str(), 0);
     if (SEM_FAILED == semOnRead_)
     {
