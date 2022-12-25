@@ -46,7 +46,7 @@ bool ConnectionSeg::Read(void* buf, const std::size_t count)
     return true;
 }
 
-bool ConnectionSeg::Write(void* buf, const std::size_t count)
+bool ConnectionSeg::Write(const void* buf, const std::size_t count)
 {
     if (count > segSize_)
         return false;

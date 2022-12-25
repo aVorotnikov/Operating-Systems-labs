@@ -35,7 +35,7 @@ bool ConnectionFifo::Read(void* buf, const std::size_t count)
     return read(fileDescriptor_, buf, count) >= 0;
 }
 
-bool ConnectionFifo::Write(void* buf, const std::size_t count)
+bool ConnectionFifo::Write(const void* buf, const std::size_t count)
 {
     return write(fileDescriptor_, buf, count) >= 0;
 }

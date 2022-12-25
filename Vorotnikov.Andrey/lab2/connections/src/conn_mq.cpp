@@ -38,7 +38,7 @@ bool ConnectionMq::Read(void* buf, const std::size_t count)
     return -1 != mq_receive(mqd_, static_cast<char*>(buf), msgSize, nullptr);
 }
 
-bool ConnectionMq::Write(void* buf, const std::size_t count)
+bool ConnectionMq::Write(const void* buf, const std::size_t count)
 {
-    return -1 != mq_send(mqd_, static_cast<char*>(buf), count, 0);
+    return -1 != mq_send(mqd_, static_cast<const char*>(buf), count, 0);
 }
