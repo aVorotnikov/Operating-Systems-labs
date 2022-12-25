@@ -4,6 +4,7 @@ foreach(CONN_FILE ${CONN_FILES})
     string(REGEX REPLACE "conn_" "" CONN_TYPE ${FILE_NAME})
 
     add_library(connection_${CONN_TYPE}
+        src/conn.cpp
         src/conn_${CONN_TYPE}.cpp
     )
 endforeach()

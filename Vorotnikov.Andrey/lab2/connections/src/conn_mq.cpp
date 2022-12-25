@@ -5,7 +5,7 @@ std::shared_ptr<Connection> GetConnection(pid_t pid, Connection::Type type)
     return std::make_shared<ConnectionMq>(pid, type);
 }
 
-ConnectionMq::ConnectionMq(std::size_t id, Connection::Type type)
+ConnectionMq::ConnectionMq(pid_t pid, Connection::Type type) : Connection(pid, type)
 {
 }
 

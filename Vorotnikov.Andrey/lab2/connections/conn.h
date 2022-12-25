@@ -13,8 +13,13 @@ public:
 
     static std::shared_ptr<Connection> GetConnection(pid_t pid, Type type);
 
+    Connection(pid_t pid, Type type);
     virtual ~Connection() = 0;
 
     virtual bool Read(void* buf, const std::size_t count) = 0;
     virtual bool Write(void* buf, const std::size_t count) = 0;
+
+protected:
+    const pid_t hostPid_;
+    const Type type_;
 };
