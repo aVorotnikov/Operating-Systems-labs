@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
     {
         syslog(LOG_ERR, "Failed to parse command line arguments");
         closelog();
-        return false;
+        return EXIT_FAILURE;
     }
 
     auto client = Client::GetRef();
@@ -48,8 +48,10 @@ int main(int argc, char* argv[])
     {
         syslog(LOG_ERR, "Failed to connect with host: %s", e.what());
         closelog();
-        return false;
+        return EXIT_FAILURE;
     }
 
-    return 0;
+    bool result = client.Run();
+    closelog();
+    return result ? EXIT_SUCCESS : EXIT_FAILURE;
 }
