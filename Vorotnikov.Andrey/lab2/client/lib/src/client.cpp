@@ -80,8 +80,8 @@ bool Client::Run()
         return false;
     needWork_ = true;
 
-    std::string semaphoreOnReadName = semaphoreOnReadNameTemplate + std::to_string(getpid());
-    std::string semaphoreOnWriteName = semaphoreOnWriteNameTemplate + std::to_string(getpid());
+    std::string semaphoreOnReadName = semaphoreOnReadNameTemplate + std::to_string(connection_->hostPid_);
+    std::string semaphoreOnWriteName = semaphoreOnWriteNameTemplate + std::to_string(connection_->hostPid_);
     semOnRead_ = sem_open(semaphoreOnReadName.c_str(), 0);
     if (SEM_FAILED == semOnRead_)
     {

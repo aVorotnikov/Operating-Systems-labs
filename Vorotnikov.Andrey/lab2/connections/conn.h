@@ -20,7 +20,6 @@ public:
     virtual bool Read(void* buf, const std::size_t count) = 0;
     virtual bool Write(const void* buf, const std::size_t count) = 0;
 
-protected:
     const pid_t hostPid_;
     const Type type_;
 };
