@@ -1,0 +1,2 @@
+/home/enoras/Documents/lab1/test_dir
+5

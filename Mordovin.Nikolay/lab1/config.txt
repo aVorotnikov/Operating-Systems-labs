@@ -1,0 +1,2 @@
+/home/nikolay/test/dir1
+/home/nikolay/test/dir2

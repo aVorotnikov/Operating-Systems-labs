@@ -1,0 +1,2 @@
+/home/maloxit/Documents/Operating-Systems-labs/Gabdushev.Rushan/lab1/test_dir
+5
