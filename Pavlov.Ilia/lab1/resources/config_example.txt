@@ -1,0 +1,2 @@
+/mnt/c/Users/Ilya/Documents/Operating-Systems-labs/Pavlov.Ilia/lab1/bin/dir1
+/mnt/c/Users/Ilya/Documents/Operating-Systems-labs/Pavlov.Ilia/lab1/bin/dir2

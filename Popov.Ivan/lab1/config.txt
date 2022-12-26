@@ -1,0 +1,3 @@
+/home/ivan/Desktop/Folder1
+/home/ivan/Desktop/Folder2
+30
