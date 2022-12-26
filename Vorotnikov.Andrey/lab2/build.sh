@@ -11,11 +11,7 @@ cd ..
 
 [ ! -d $BIN_DIR ] && mkdir $BIN_DIR
 
-CONNS=("fifo" "mq" "seg")
-for CONN in "${CONNS[@]}"
-do
-    cp ${BUILD_DIR}/host_${CONN} $BIN_DIR
-    cp ${BUILD_DIR}/client_${CONN} $BIN_DIR
-done
+cp ${BUILD_DIR}/host_* $BIN_DIR
+cp ${BUILD_DIR}/client_* $BIN_DIR
 
 rm -r $BUILD_DIR
