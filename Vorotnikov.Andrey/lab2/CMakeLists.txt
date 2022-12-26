@@ -21,6 +21,7 @@ foreach(CONN_FILE ${CONN_FILES})
     target_link_libraries(host_${CONN_TYPE}
         connection_${CONN_TYPE}
         host_lib
+        gui
     )
 
     add_executable(client_${CONN_TYPE}
