@@ -32,9 +32,12 @@ Gui::Gui(
     mainWindow_->tableView->setColumnWidth(2, mainWindow_->tableView->width() / 2);
     mainWindow_->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 
+    mainWindow_->timer->setMinimum(0);
+    mainWindow_->timer->setMaximum(3);
+
     mainWindow_->lcdNumber->setSegmentStyle(QLCDNumber::Flat);
     QPalette p = mainWindow_->lcdNumber->palette();
-    p.setColor(p.WindowText, Qt::red);
+    p.setColor(p.WindowText, Qt::blue);
     mainWindow_->lcdNumber->setPalette(p);
 
     timerItem_ = new QTimer(this);
@@ -85,6 +88,7 @@ void Gui::RegAction()
     int t = timer_();
     t = t < 0 ? 0 : t;
     mainWindow_->lcdNumber->display(t);
+    mainWindow_->timer->setSliderPosition(t);
 
     GameState state;
     if (getGameState_(state))
